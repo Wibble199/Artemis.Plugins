@@ -51,20 +51,21 @@ namespace Module.EliteDangerous.Status {
 
     public enum GuiPanel {
         None = 0,
-        Systems = 1,
-        Navigation = 2,
-        Coms = 3,
+        Internal = 1,
+        External = 2,
+        Comms = 3,
         Role = 4,
         StationServices = 5,
         GalaxyMap = 6,
         SystemMap = 7,
-        OrreryMap = 8,
+        Orrery = 8,
         FullSpectrumScanner = 9,
         DiscoveryScanner = 10,
         Codex = 11
     }
 
     public enum LegalState {
+        Unknown,
         Clean,
         IllegalCargo,
         Speeding,

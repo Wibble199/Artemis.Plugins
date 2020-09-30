@@ -6,6 +6,11 @@
         public GuiPanel GuiFocus;
         public Fuel Fuel = new Fuel();
         public float Cargo;
+        public LegalState LegalState;
+        public float Latitude;
+        public float Longitude;
+        public float Altitude;
+        public float Heading;
     }
 
     public sealed class Fuel {

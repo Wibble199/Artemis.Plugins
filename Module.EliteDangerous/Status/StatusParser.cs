@@ -30,6 +30,7 @@ namespace Module.EliteDangerous.Status {
                 : Has(StatusFlags.PilotingFighter) ? Vehicle.Fighter
                 : Has(StatusFlags.PilotingSRV) ? Vehicle.SRV
                 : Vehicle.Unknown;
+            dataModel.Player.LegalState = status.LegalState;
             dataModel.Player.InWing = Has(StatusFlags.InWing);
 
             // HUD
