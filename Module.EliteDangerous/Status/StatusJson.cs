@@ -1,10 +1,10 @@
 ﻿namespace Module.EliteDangerous.Status {
     public sealed class StatusJson {
         public StatusFlags Flags;
-        public int[] Pips;
+        public int[] Pips = new[] { 0, 0, 0 };
         public int FireGroup;
-        public int GuiFocus;
-        public Fuel Fuel;
+        public GuiPanel GuiFocus;
+        public Fuel Fuel = new Fuel();
         public float Cargo;
     }
 

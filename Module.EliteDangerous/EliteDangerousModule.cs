@@ -27,7 +27,6 @@ namespace Module.EliteDangerous {
             DisplayIconPath = "Elite-Dangerous.png";
             DefaultPriorityCategory = ModulePriorityCategory.Application;
             ActivationRequirements.Add(new ProcessActivationRequirement("EliteDangerous64"));
-            UpdateDuringActivationOverride = true;
             //ModuleTabs = new List<ModuleTab> { new ModuleTab<CustomViewModel>("Settings") };
 
             journalParser = new JournalParser(EliteDataDirectory);
@@ -40,12 +39,19 @@ namespace Module.EliteDangerous {
         }
 
         public override void Update(double deltaTime) {
-            journalParser.PerfomRead(DataModel);
-            statusParser.PerfomRead(DataModel);
+            journalParser.PerformUpdate(DataModel);
+            statusParser.PerformUpdate(DataModel);
         }
 
-        public override void ModuleActivated(bool isOverride) { }
-        public override void ModuleDeactivated(bool isOverride) { }
+        public override void ModuleActivated(bool isOverride) {
+            journalParser.Activate();
+            statusParser.Activate();
+        }
+
+        public override void ModuleDeactivated(bool isOverride) {
+            journalParser.Deactivate();
+            statusParser.Deactivate();
+        }
 
         public override void Render(double deltaTime, ArtemisSurface surface, SKCanvas canvas, SKImageInfo canvasInfo) { }
     }

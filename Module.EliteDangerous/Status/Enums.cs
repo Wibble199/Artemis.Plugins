@@ -42,6 +42,28 @@ namespace Module.EliteDangerous.Status {
         SRVHighBeam = 1u << 31
     }
 
+    public enum Vehicle {
+        Unknown,
+        Ship,
+        Fighter,
+        SRV
+    }
+
+    public enum GuiPanel {
+        None = 0,
+        Systems = 1,
+        Navigation = 2,
+        Coms = 3,
+        Role = 4,
+        StationServices = 5,
+        GalaxyMap = 6,
+        SystemMap = 7,
+        OrreryMap = 8,
+        FullSpectrumScanner = 9,
+        DiscoveryScanner = 10,
+        Codex = 11
+    }
+
     public enum LegalState {
         Clean,
         IllegalCargo,
