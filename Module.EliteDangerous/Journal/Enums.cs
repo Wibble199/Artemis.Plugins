@@ -31,7 +31,7 @@ namespace Module.EliteDangerous.Journal {
 
     public enum CombatRank {
         Harmless = 0,
-        Mostly_Harmless = 1,
+        MostlyHarmless = 1,
         Novice = 2,
         Competent = 3,
         Expert = 4,
@@ -43,7 +43,7 @@ namespace Module.EliteDangerous.Journal {
 
     public enum TradeRank {
         Penniless = 0,
-        Mostly_Penniless = 1,
+        MostlyPenniless = 1,
         Peddler = 2,
         Dealer = 3,
         Merchant = 4,
@@ -55,7 +55,7 @@ namespace Module.EliteDangerous.Journal {
 
     public enum ExplorerRank {
         Aimless = 0,
-        Mostly_Aimless = 1,
+        MostlyAimless = 1,
         Scout = 2,
         Surveyor = 3,
         Trailblazer = 4,
@@ -67,9 +67,9 @@ namespace Module.EliteDangerous.Journal {
 
     public enum CQCRank {
         Helpless = 0,
-        Mostly_Helpless = 1,
+        MostlyHelpless = 1,
         Amateur = 2,
-        Semi_Professional = 3,
+        SemiProfessional = 3,
         Professional = 4,
         Champion = 5,
         Hero = 6,
@@ -100,16 +100,16 @@ namespace Module.EliteDangerous.Journal {
         Recruit = 1,
         Cadet = 2,
         Midshipman = 3,
-        Petty_Officer = 4,
-        Chief_Petty_Officer = 5,
-        Warrant_Officer = 6,
+        PettyOfficer = 4,
+        ChiefPettyOfficer = 5,
+        WarrantOfficer = 6,
         Ensign = 7,
         Lieutenant = 8,
-        Lieutenant_Commander = 9,
-        Post_Commander = 10,
-        Post_Captain = 11,
-        Rear_Admiral = 12,
-        Vice_Admiral = 13,
+        LieutenantCommander = 9,
+        PostCommander = 10,
+        PostCaptain = 11,
+        RearAdmiral = 12,
+        ViceAdmiral = 13,
         Admiral = 14
     }
 }

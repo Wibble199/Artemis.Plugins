@@ -7,20 +7,16 @@ namespace Module.EliteDangerous.Journal {
 
     internal class JournalParser : IDisposable {
 
-        // Location of journal log and status files.
-        private static readonly string EliteDataDirectory = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @"Saved Games\Frontier Developments\Elite Dangerous"
-        );
-
         // Lock for the stream to make sure that we don't end up reading from it while trying to dispose it
         private readonly object streamLock = new object();
         private bool isStreamOpen = false;
 
+        private readonly string dataDirectory;
         private FileStream journalFileStream;
         private StreamReader journalStreamReader;
 
-        public JournalParser() {
+        public JournalParser(string dataDirectory) {
+            this.dataDirectory = dataDirectory;
             OpenJournal(LatestJournal);
 
             // TODO: Add support for when a new journal log file is created
@@ -51,9 +47,9 @@ namespace Module.EliteDangerous.Journal {
         /// <summary>
         /// Returns the filename of the newest journal log in the given journal directory.
         /// </summary>
-        private static string LatestJournal {
+        private string LatestJournal {
             get {
-                var logFiles = Directory.GetFiles(EliteDataDirectory, "Journal.*.log");
+                var logFiles = Directory.GetFiles(dataDirectory, "Journal.*.log");
                 Array.Sort(logFiles);
                 return logFiles[^1];
             }
