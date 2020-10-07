@@ -2,8 +2,6 @@
 using Artemis.Core.Modules;
 using SkiaSharp;
 using Module.EliteDangerous.DataModels;
-using System.Collections.Generic;
-using Module.EliteDangerous.ViewModels;
 using Module.EliteDangerous.Journal;
 using System;
 using System.IO;
@@ -27,7 +25,6 @@ namespace Module.EliteDangerous {
             DisplayIconPath = "Elite-Dangerous.png";
             DefaultPriorityCategory = ModulePriorityCategory.Application;
             ActivationRequirements.Add(new ProcessActivationRequirement("EliteDangerous64"));
-            //ModuleTabs = new List<ModuleTab> { new ModuleTab<CustomViewModel>("Settings") };
 
             journalParser = new JournalParser(EliteDataDirectory);
             statusParser = new StatusParser(EliteDataDirectory);
