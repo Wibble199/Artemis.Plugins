@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
 
@@ -10,10 +9,10 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     internal readonly struct TruckSimulatorMemoryStruct {
 
-        private const int StringSize = 64;
-        private const int WheelSize = 16;
-        private const int SlotSize = 32;
-        private const int Substances = 25;
+        internal const int StringSize = 64;
+        internal const int WheelSize = 16;
+        internal const int SlotSize = 32;
+        internal const int Substances = 25;
 
 
         // ----------------------------------------------
@@ -61,7 +60,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly uint jobStartTime;
         public readonly uint jobFinishingTime;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)] readonly int[] _g2; // Gap of 48 bytes
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 48)] readonly byte[] _g2; // Gap of 48 bytes
 
 
         // ----------------------------------------------
@@ -73,7 +72,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = SlotSize)] public readonly int[] slotGear;
         public readonly int earnedXp;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 14)] readonly int[] _g3; // Gap of 56 bytes
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 56)] readonly byte[] _g3; // Gap of 56 bytes
 
 
         // ----------------------------------------------
@@ -99,7 +98,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly float jobCargoUnitMass;
 
         public readonly float speed; // meters per second
-        public readonly float rpm;
+        public readonly float engineRpm;
         public readonly float steeringInput;
         public readonly float throttleInput;
         public readonly float brakeInput;
@@ -144,7 +143,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
 
         public readonly float cargoDamage;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)] readonly int[] _g4; // Gap of 28 bytes
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 28)] readonly byte[] _g4; // Gap of 28 bytes
 
 
         // ----------------------------------------------
@@ -190,43 +189,163 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly byte jobAutoParked;
         public readonly byte jobAutoLoaded;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)] public readonly byte[] _g5; // Gap of 31 bytes
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)] readonly byte[] _g5; // Gap of 31 bytes
 
 
         // ----------------------------------------------
         // Sixth zone (offset 1640)
         // ----------------------------------------------
+        public readonly Vector<float> cabinPosition;
+        public readonly Vector<float> headPosition;
+        public readonly Vector<float> hookPosition;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelPositionsX;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelPositionsY;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelPositionsZ;
+
+        public readonly Vector<float> linearVelocity;
+        public readonly Vector<float> angularVelocity;
+        public readonly Vector<float> linearAcceleration;
+        public readonly Vector<float> angularAcceleration;
+        public readonly Vector<float> cabinAngularVelocity;
+        public readonly Vector<float> cabinAngularAcceleration;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)] readonly byte[] _g6; // Gap of 60 bytes
+
 
         // ----------------------------------------------
         // Seventh zone (offset 2000)
         // ----------------------------------------------
+        public readonly Placement<float> cabinOffset;
+        public readonly Placement<float> headOffset;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 152)] readonly byte[] _g7; // Gap of 152 bytes
+
 
         // ----------------------------------------------
         // Eigth zone (offset 2200)
         // ----------------------------------------------
+        public readonly Placement<double> truckPosition;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 52)] readonly byte[] _g8; // Gap of 52 bytes
 
         // ----------------------------------------------
         // Nineth zone (offset 2300)
         // ----------------------------------------------
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string brandId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string brand;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string modelId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string modelName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string cargoId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string cargo;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string destinationCityId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string destinationCity;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string destinationCompanyId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string destinationCompany;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string sourceCityId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string sourceCity;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string sourceCompanyId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string sourceCompany;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)] public readonly string shifterType;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string licensePlate;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string licensePlateCountryId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string licensePlateCountry;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public readonly string jobType;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public readonly string fineOffence;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string ferrySourceName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string ferryDestinationName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string ferrySourceId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string ferryDestinationId;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string trainSourceName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string trainDestinationName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string trainSourceId;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string trainDestinationId;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)] readonly byte[] _g9; // Gap of 20 bytes
+
 
         // ----------------------------------------------
         // Tenth zone (offset 4000)
         // ----------------------------------------------
+        public readonly ulong jobIncome;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 192)] readonly byte[] _g10; // Gap of 192 bytes
+
 
         // ----------------------------------------------
         // Eleventh zone (offset 4200)
         // ----------------------------------------------
+        public readonly long jobCancelPenalty;
+        public readonly long jobDeliveryRevenue;
+        public readonly long finedAmount;
+        public readonly long tollgatePayAmount;
+        public readonly long ferryPayAmount;
+        public readonly long trainPayAmount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 52)] readonly byte[] _g11; // Gap of 52 bytes
+
 
         // ----------------------------------------------
         // Twelveth zone (offset 4300)
         // ----------------------------------------------
+        public readonly byte onJob;
+        public readonly byte jobFinished;
+
+        public readonly byte jobCancelled;
+        public readonly byte jobDelivered;
+        public readonly byte fined;
+        public readonly byte tollgate;
+        public readonly byte ferry;
+        public readonly byte train;
+
+        public readonly byte refuel;
+        public readonly byte refuelPayed;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 90)] readonly byte[] _g12; // Gap of 90 bytes
+
 
         // ----------------------------------------------
         // Thirteenth zone (offset 4400)
         // ----------------------------------------------
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Substances)] public readonly Substance[] substances;
+
+        // No gap required.
+
 
         // ----------------------------------------------
         // Fourteenth zone (offset 6000)
         // ----------------------------------------------
+    }
+
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    internal readonly struct Vector<T> where T : struct {
+        public readonly T x;
+        public readonly T y;
+        public readonly T z;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    internal readonly struct Euler<T> where T : struct {
+        public readonly T heading;
+        public readonly T pitch;
+        public readonly T roll;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    internal readonly struct Placement<T> where T : struct {
+        public readonly Vector<T> position;
+        public readonly Euler<T> orientation;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    internal readonly struct Substance {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TruckSimulatorMemoryStruct.StringSize)] public readonly string name;
     }
 }
