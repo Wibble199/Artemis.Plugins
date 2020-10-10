@@ -11,7 +11,10 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 
         //public bool ParkingBrake => Telemetry.parkBrake > 0;
 
+        [DataModelProperty(Name = "Speed (Km/h)", Affix = "Km/h")]
         public float SpeedKph => Telemetry.speed * 3.6f;
+
+        [DataModelProperty(Name = "Speed (Mph)", Affix = "Mph")]
         public float SpeedMph => Telemetry.speed * 2.237f;
     }
 
@@ -24,7 +27,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
     public class TruckDamage : ChildDataModel {
         public TruckDamage(TruckSimulatorDataModel root) : base(root) { }
 
-        /*[DataModelProperty(MinValue = 0f, MaxValue = 1f)]
+        [DataModelProperty(MinValue = 0f, MaxValue = 1f)]
         public float Engine => Telemetry.wearEngine;
 
         [DataModelProperty(MinValue = 0f, MaxValue = 1f)]
@@ -37,6 +40,6 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         public float Chassis => Telemetry.wearChassis;
 
         [DataModelProperty(MinValue = 0f, MaxValue = 1f)]
-        public float Wheels => Telemetry.wearWheels;*/
+        public float Wheels => Telemetry.wearWheelsAvg;
     }
 }

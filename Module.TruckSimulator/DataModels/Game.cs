@@ -3,7 +3,7 @@
 
         public Game(TruckSimulatorDataModel root) : base(root) { }
 
-        public bool Paused => Telemetry.paused;
+        public bool Paused => Telemetry.paused != 0;
         public ulong Timestamp => Telemetry.timestamp;
         public SCSGame CurrentGame => (SCSGame)Telemetry.currentGame;
     }

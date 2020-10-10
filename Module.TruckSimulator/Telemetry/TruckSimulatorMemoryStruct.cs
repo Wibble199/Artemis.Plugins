@@ -5,6 +5,8 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
 
     // Adapted from the code at https://github.com/RenCloud/scs-sdk-plugin/blob/master/scs-client/C%23/SCSSdkClient/SCSSdkConvert.cs
 
+    // Designed for SCS SDK v1.12
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     internal readonly struct TruckSimulatorMemoryStruct {
 
@@ -17,8 +19,8 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         // ----------------------------------------------
         // First zone (offset 0)
         // ----------------------------------------------
-        public readonly bool sdkActive;
-        public readonly bool paused;
+        public readonly uint sdkActive;
+        public readonly uint paused;
         public readonly ulong timestamp;
         public readonly ulong simulationTimestamp;
         public readonly ulong renderTimestamp;
@@ -106,11 +108,90 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly float throttleGame;
         public readonly float brakeGame;
         public readonly float clutchGame;
+        public readonly float cruiseControl;
+        public readonly float airPressure;
+        public readonly float brakeTemperature;
+        public readonly float fuel;
+        public readonly float fuelAvgConsumption;
+        public readonly float fuelRange;
+        public readonly float adblue;
+        public readonly float oilPressure;
+        public readonly float oilTemperature;
+        public readonly float waterTemperature;
+        public readonly float batteryVoltage;
+        public readonly float dashboardBacklight;
+        public readonly float wearEngine;
+        public readonly float wearTransmission;
+        public readonly float wearCabin;
+        public readonly float wearChassis;
+        public readonly float wearWheelsAvg;
+
+        public readonly float odometer;
+        public readonly float navigationDistance;
+        public readonly float navigationTime;
+        public readonly float speedLimit;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelSuspDeflections;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelVelocities;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelSteerings;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelRotations;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelLifts;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelLiftOffsets;
+
+        public readonly float jobCargoDamage;
+        public readonly float jobDistanceKm;
+
+        public readonly float refuelAmount;
+
+        public readonly float cargoDamage;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)] readonly int[] _g4; // Gap of 28 bytes
 
 
         // ----------------------------------------------
         // Fifth zone (offset 1500)
         // ----------------------------------------------
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsSteerable;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsSimulated;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsPowered;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsLiftable;
+
+        public readonly byte cargoLoaded;
+        public readonly byte specialJob;
+
+        public readonly byte parkingBrake;
+        public readonly byte motorBrake;
+        public readonly byte airPressureWarning;
+        public readonly byte airPressureEmergency;
+
+        public readonly byte fuelWarning;
+        public readonly byte adblueWarning;
+        public readonly byte oilPressureWarning;
+        public readonly byte waterTemperatureWarning;
+        public readonly byte batteryVoltageWarning;
+        public readonly byte electricEnabled;
+        public readonly byte engineEnabled;
+        public readonly byte wipers;
+        public readonly byte blinkerLeftActive; // True if the player has enabled the left blinker
+        public readonly byte blinkerRightActive;
+        public readonly byte blinkerLeftOn; // True if the actual blinker light is on or off (i.e. this will switch true/false while blinkerLeftActive remains true)
+        public readonly byte blinkerRightOn;
+        public readonly byte parkingLights;
+        public readonly byte lowBeamLights;
+        public readonly byte highBeamLights;
+        public readonly byte beaconOn;
+        public readonly byte brakeLightsOn;
+        public readonly byte reverseLightsOn;
+        public readonly byte cruiseControlActive;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsOnGround;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)] public readonly byte[] hShifterSelector;
+
+        public readonly byte jobAutoParked;
+        public readonly byte jobAutoLoaded;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)] public readonly byte[] _g5; // Gap of 31 bytes
+
 
         // ----------------------------------------------
         // Sixth zone (offset 1640)
