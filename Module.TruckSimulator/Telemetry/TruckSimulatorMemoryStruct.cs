@@ -13,6 +13,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         internal const int WheelSize = 16;
         internal const int SlotSize = 32;
         internal const int Substances = 25;
+        internal const int Trailers = 10;
 
 
         // ----------------------------------------------
@@ -321,6 +322,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         // ----------------------------------------------
         // Fourteenth zone (offset 6000)
         // ----------------------------------------------
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Trailers)] public readonly Trailer[] trailers;
     }
 
 
