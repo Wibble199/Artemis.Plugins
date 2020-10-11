@@ -10,10 +10,10 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
     internal readonly struct TruckSimulatorMemoryStruct {
 
         internal const int StringSize = 64;
-        internal const int WheelSize = 16;
+        internal const int WheelCount = 16;
         internal const int SlotSize = 32;
-        internal const int Substances = 25;
-        internal const int Trailers = 10;
+        internal const int SubstanceCount = 25;
+        internal const int TrailerCount = 10;
 
 
         // ----------------------------------------------
@@ -53,7 +53,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly uint retarderLevel;
         public readonly uint lightsAuxFront;
         public readonly uint lightsAuxRoof;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly uint[] wheelSubstances;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly uint[] wheelSubstances;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = SlotSize)] public readonly uint[] slotHandlePosition;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = SlotSize)] public readonly uint[] slotSelectors;
 
@@ -93,7 +93,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly float engineRpmMax;
         public readonly float differentialRatio;
         public readonly float jobCargoMass;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelRadii;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelRadii;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 24)] public readonly float[] gearRatiosForward;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)] public readonly float[] gearRatiosReverse;
         public readonly float jobCargoUnitMass;
@@ -130,12 +130,12 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly float navigationDistance;
         public readonly float navigationTime;
         public readonly float speedLimit;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelSuspDeflections;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelVelocities;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelSteerings;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelRotations;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelLifts;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelLiftOffsets;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelSuspDeflections;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelVelocities;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelSteerings;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelRotations;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelLifts;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelLiftOffsets;
 
         public readonly float jobCargoDamage;
         public readonly float jobDistanceKm;
@@ -150,10 +150,10 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         // ----------------------------------------------
         // Fifth zone (offset 1500)
         // ----------------------------------------------
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsSteerable;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsSimulated;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsPowered;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsLiftable;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly byte[] wheelsSteerable;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly byte[] wheelsSimulated;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly byte[] wheelsPowered;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly byte[] wheelsLiftable;
 
         public readonly byte cargoLoaded;
         public readonly byte specialJob;
@@ -183,7 +183,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly byte reverseLightsOn;
         public readonly byte cruiseControlActive;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly byte[] wheelsOnGround;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly byte[] wheelsOnGround;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)] public readonly byte[] hShifterSelector;
 
@@ -200,9 +200,9 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly Vector<float> headPosition;
         public readonly Vector<float> hookPosition;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelPositionsX;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelPositionsY;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelSize)] public readonly float[] wheelPositionsZ;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelPositionsX;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelPositionsY;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelPositionsZ;
 
         public readonly Vector<float> linearVelocity;
         public readonly Vector<float> angularVelocity;
@@ -314,7 +314,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         // ----------------------------------------------
         // Thirteenth zone (offset 4400)
         // ----------------------------------------------
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Substances)] public readonly Substance[] substances;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = SubstanceCount)] public readonly Substance[] substances;
 
         // No gap required.
 
@@ -322,7 +322,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         // ----------------------------------------------
         // Fourteenth zone (offset 6000)
         // ----------------------------------------------
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Trailers)] public readonly Trailer[] trailers;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = TrailerCount)] public readonly Trailer[] trailers;
     }
 
 
