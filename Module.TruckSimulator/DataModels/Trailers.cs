@@ -1,4 +1,5 @@
 ﻿using Artemis.Core.DataModelExpansions;
+using Artemis.Plugins.Modules.TruckSimulator.Conversions;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
 using System.Collections.Generic;
 
@@ -19,15 +20,8 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
             }
         }
 
-        [DataModelProperty(Description = "Whether any trailers are attached to the truck.")]
-        public bool AnyAttached {
-            get {
-                foreach (var trailer in Telemetry.trailers)
-                    if (trailer.attached != 0)
-                        return true;
-                return false;
-            }
-        }
+        [DataModelProperty(Description = "Whether the first trailer is attached to the truck.")]
+        public bool Attached => Telemetry.trailers[0].attached != 0;
 
         [DataModelProperty(Description = "List containing details about the state of each trailer.")]
         public List<Trailer> TrailerData {
@@ -44,6 +38,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         }
     }
 
+
     public class Trailer : ChildDataModel {
         private readonly int trailerIndex;
 
@@ -52,11 +47,23 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
             Wheels = new TrailerWheels(root, trailerIndex);
         }
 
-        public string BodyType => Telemetry.trailers[trailerIndex].bodyType;
-        public string Brand => Telemetry.trailers[trailerIndex].brand;
-        public string Model => Telemetry.trailers[trailerIndex].model;
+        private Telemetry.Trailer ThisTrailer => Telemetry.trailers[trailerIndex];
+
+        [DataModelProperty(Description = "Whether this trailer is attached to an object. Does NOT represent whether the trailer is attached to the player's truck - in the case of multiple trailers (e.g. B-Doubles) this will be true because the second trailer will be attached to the first regardless of whether it is connected to the truck or not.")]
+        public bool Attached => ThisTrailer.attached != 0;
+        public string ChainType => ThisTrailer.chainType;
+
+        public float CargoDamage => ThisTrailer.damageCargo;
+        public float ChassisDamage => ThisTrailer.damageChassis;
+        public float WheelDamage => ThisTrailer.damageWheels;
+
+        public string BodyType => ThisTrailer.bodyType;
+        public string Brand => ThisTrailer.brand;
+        public string Model => ThisTrailer.model;
+
         public TrailerWheels Wheels { get; }
     }
+
 
     public class TrailerWheels : ChildDataModel {
         private readonly int trailerIndex;
@@ -82,6 +89,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         }
     }
 
+
     public class TrailerWheel : ChildDataModel {
         private readonly int trailerIndex;
         private readonly int wheelIndex;
@@ -93,13 +101,29 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 
         private Telemetry.Trailer ThisTrailer => Telemetry.trailers[trailerIndex];
 
+        [DataModelProperty(Description = "Whether this wheel is in contact with the ground.")]
         public bool OnGround => ThisTrailer.wheelsOnGround[wheelIndex] != 0;
+        [DataModelProperty(Description = "Whether this wheel may turn in the opposite direction of the truck to help the trailer steer round corners.")]
         public bool Steerable => ThisTrailer.wheelsSteerable[wheelIndex] != 0;
-        public bool Liftable => ThisTrailer.wheelsLiftable[wheelIndex] != 0;
         public bool Powered => ThisTrailer.wheelsPowered[wheelIndex] != 0;
-        public float Steering => ThisTrailer.wheelsSteering[wheelIndex];
+
+        [DataModelProperty(Description = "Whether this wheel can be lifted.")]
+        public bool Liftable => ThisTrailer.wheelsLiftable[wheelIndex] != 0;
+        [DataModelProperty(Description = "The vertical displacement of the wheel axle from its normal position due to lifting the axle.", Affix = "m")]
+        public float LiftOffset => ThisTrailer.wheelLiftOffsets[wheelIndex];
+
+        [DataModelProperty(Description = "Direction the wheel is facing relative to the trailer (0° = straight)", Affix = "°")]
+        public float Steering => ThisTrailer.wheelsSteering[wheelIndex] * -360f;
+
+        [DataModelProperty(Description = "Current rotational speed of the wheel about the axle in rotations per second.", Affix = "RPS")]
         public float Velocity => ThisTrailer.wheelVelocities[wheelIndex];
+        [DataModelProperty(Description = "Current rotation of the wheel about the axle in degrees.", Affix = "°")]
+        public float Rotation => ThisTrailer.wheelsRotation[wheelIndex] * 360f;
+
+        [DataModelProperty(Description = "The vertical displacement of the wheel due to the suspension.", Affix = "m")]
         public float SuspensionDeflection => ThisTrailer.wheelSuspDeflections[wheelIndex];
+
+        [DataModelProperty(Description = "Name of the substance underneath this wheel. E.G. 'road' or 'dirt'.")]
         public string Surface => Telemetry.substances[ThisTrailer.wheelSubstances[wheelIndex]].name;
     }
 }
