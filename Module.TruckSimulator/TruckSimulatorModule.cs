@@ -3,6 +3,7 @@ using Artemis.Core.Modules;
 using SkiaSharp;
 using Artemis.Plugins.Modules.TruckSimulator.DataModels;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
+using Artemis.Plugins.Modules.TruckSimulator.ViewModels;
 
 namespace Artemis.Plugins.Modules.TruckSimulator {
 
@@ -17,6 +18,8 @@ namespace Artemis.Plugins.Modules.TruckSimulator {
 
             DefaultPriorityCategory = ModulePriorityCategory.Application;
 
+            ConfigurationDialog = new PluginConfigurationDialog<TruckSimulatorConfigurationViewModel>();
+
             ActivationRequirementMode = ActivationRequirementType.Any;
             ActivationRequirements.Add(new ProcessActivationRequirement("eurotrucks2"));
             ActivationRequirements.Add(new ProcessActivationRequirement("amtrucks"));
@@ -25,7 +28,8 @@ namespace Artemis.Plugins.Modules.TruckSimulator {
         }
 
         public override void Update(double deltaTime) {
-            DataModel.Telemetry = mappedFileReader?.Read() ?? default;
+            if (!IsActivatedOverride)
+                DataModel.Telemetry = mappedFileReader?.Read() ?? default;
         }
 
         public override void DisablePlugin() {
