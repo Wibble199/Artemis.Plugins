@@ -10,6 +10,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         public TruckSimulatorDataModel() {
             Game = new Game(this);
             Truck = new Truck(this);
+            Trailers = new Trailers(this);
             Job = new Job(this);
             Navigation = new Navigation(this);
             CruiseControl = new CruiseControl(this);
@@ -22,6 +23,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         // Child data models
         public Game Game { get; }
         public Truck Truck { get; }
+        public Trailers Trailers { get; }
         public Job Job { get; }
         public Navigation Navigation { get; }
         public CruiseControl CruiseControl { get; }

@@ -40,7 +40,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry {
         public readonly float damageChassis;
         public readonly float damageWheels;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelSuspDeflections;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelsVelocity;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelVelocities;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelsSteering;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelsRotation;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly float[] wheelsLift;

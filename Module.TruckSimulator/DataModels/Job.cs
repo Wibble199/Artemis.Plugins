@@ -6,6 +6,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
     public class Job : ChildDataModel {
         public Job(TruckSimulatorDataModel root) : base(root) { }
 
+        [DataModelProperty(Description = "The date and time that the customer expects their delivery by.")]
         public DateTime DeliveryTime => Telemetry.deliveryTime.ToGameDateTime();
 
         [DataModelProperty(Description = "Time until the current delivery is due at the destination in minutes.", Affix = "min")]
@@ -13,6 +14,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
             ? (int)(Telemetry.deliveryTime - Telemetry.gameTime)
             : 0;
 
+        [DataModelProperty(Description = "Indicates whether cargo is loaded onto the trailer. In the case of the freight market or external market, cargo is always pre-loaded onto the trailer. Only when taking jobs through the cargo market or external cargo market (i.e. when you bring your own trailer) can cargo be waiting to be loaded.")]
         public bool CargoLoaded => Telemetry.cargoLoaded != 0;
         public bool SpecialCargo => Telemetry.specialJob != 0;
 

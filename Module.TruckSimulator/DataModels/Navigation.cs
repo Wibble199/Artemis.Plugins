@@ -22,7 +22,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         public double PositionY => Telemetry.truckPosition.position.y;
         public double PositionZ => Telemetry.truckPosition.position.z;
 
-        [DataModelProperty(Description = "", Affix = "°")]
+        [DataModelProperty(Description = "The current heading of the truck. 0° = North, 90° = East, 180° = South, 270° = West.", Affix = "°")]
         public float Heading => (1f - (float)Telemetry.truckPosition.orientation.heading) * 360f; // Heading is [0-1), 0 = north, .25 = west
     }
 }

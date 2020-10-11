@@ -10,6 +10,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
             Fuel = new Fuel(root);
             AirPressure = new BrakeAirPressure(root);
             Lights = new Lights(root);
+            Wheels = new TruckWheels(root);
             Damage = new Damage(root);
         }
 
@@ -17,6 +18,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         public Fuel Fuel { get; }
         public BrakeAirPressure AirPressure { get; }
         public Lights Lights { get; }
+        public TruckWheels Wheels { get; }
         public Damage Damage { get; }
 
         // Misc/ungrouped truck properties
@@ -40,7 +42,9 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 
         public bool WipersEnabled => Telemetry.wipers != 0;
 
+        [DataModelProperty(Description = "Manufacturer of the truck the player is driving. E.G. 'Volvo'.")]
         public string Brand => Telemetry.brand;
+        [DataModelProperty(Description = "Model of the truck the player is driving. E.G. 'FH'.")]
         public string Model => Telemetry.modelName;
 
         public bool DashboardBacklightActive => Telemetry.dashboardBacklight != 0;
