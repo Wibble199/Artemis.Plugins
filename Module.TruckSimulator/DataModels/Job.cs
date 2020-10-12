@@ -1,13 +1,17 @@
 ﻿using Artemis.Core.DataModelExpansions;
 using Artemis.Plugins.Modules.TruckSimulator.Conversions;
-using System;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
     public class Job : ChildDataModel {
-        public Job(TruckSimulatorDataModel root) : base(root) { }
+        public Job(TruckSimulatorDataModel root) : base(root) {
+            DeliveryTime = new DateTimeModel(() => Telemetry.deliveryTime.ToGameDateTime());
+        }
+
+        [DataModelProperty(Description = "Whether the player is currently doing a delivery job.")]
+        public bool OnJob => Telemetry.onJob != 0;
 
         [DataModelProperty(Description = "The date and time that the customer expects their delivery by.")]
-        public DateTime DeliveryTime => Telemetry.deliveryTime.ToGameDateTime();
+        public DateTimeModel DeliveryTime { get; }
 
         [DataModelProperty(Description = "Time until the current delivery is due at the destination in minutes.", Affix = "min")]
         public int RemainingDeliveryTime => Telemetry.gameTime < 4_000_000_000 && Telemetry.deliveryTime > 0

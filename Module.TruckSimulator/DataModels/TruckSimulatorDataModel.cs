@@ -1,7 +1,5 @@
 ﻿using Artemis.Core.DataModelExpansions;
-using Artemis.Plugins.Modules.TruckSimulator.Conversions;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
-using System;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 

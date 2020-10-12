@@ -8,9 +8,6 @@ namespace Artemis.Plugins.Modules.TruckSimulator.Conversions {
     /// </summary>
     internal static class DateTimeConversions {
         public static DateTime ToGameDateTime(this uint minutes) =>
-            new DateTime((long)minutes * 10_000_000 * 60, DateTimeKind.Utc);
-
-        public static DateTime ToGameDateTime(this int minutes) =>
-            new DateTime((long)Math.Abs(minutes) * 10_000_000 * 60, DateTimeKind.Utc);
+            new DateTime((long)minutes * 10_000_000 * 60, DateTimeKind.Utc); // 10 million ticks in a second * 60 minutes in a second
     }
 }

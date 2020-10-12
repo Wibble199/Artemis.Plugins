@@ -1,5 +1,4 @@
 ﻿using Artemis.Core.DataModelExpansions;
-using Artemis.Plugins.Modules.TruckSimulator.Conversions;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
 using System.Collections.Generic;
 
@@ -13,6 +12,13 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         [DataModelProperty(Description = "Total number of trailers. Note: this includes any that are spawned but not yet hooked up to the truck.")]
         public int TrailerCount {
             get {
+                // Guard to check telemetry data is valid
+                if (Telemetry.trailers == null)
+                    return 0;
+
+                // To count the trailers, return the index of the first one without a valid ID.
+                // E.G. if there were 2 trailers, the trailers at indicies [0] and [1] would have ID, but trailers[2] would not.
+                // If we leave the loop, there must be the maximum number of supported trailers
                 for (var i = 0; i < TruckSimulatorMemoryStruct.TrailerCount; i++)
                     if (string.IsNullOrWhiteSpace(Telemetry.trailers[i].id))
                         return i;
@@ -21,7 +27,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         }
 
         [DataModelProperty(Description = "Whether the first trailer is attached to the truck.")]
-        public bool Attached => Telemetry.trailers[0].attached != 0;
+        public bool Attached => Telemetry.trailers != null && Telemetry.trailers[0].attached != 0;
 
         [DataModelProperty(Description = "List containing details about the state of each trailer.")]
         public List<Trailer> TrailerData {
@@ -103,16 +109,18 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 
         [DataModelProperty(Description = "Whether this wheel is in contact with the ground.")]
         public bool OnGround => ThisTrailer.wheelsOnGround[wheelIndex] != 0;
-        [DataModelProperty(Description = "Whether this wheel may turn in the opposite direction of the truck to help the trailer steer round corners.")]
-        public bool Steerable => ThisTrailer.wheelsSteerable[wheelIndex] != 0;
         public bool Powered => ThisTrailer.wheelsPowered[wheelIndex] != 0;
 
         [DataModelProperty(Description = "Whether this wheel can be lifted.")]
         public bool Liftable => ThisTrailer.wheelsLiftable[wheelIndex] != 0;
+        [DataModelProperty(Description = "Whether this wheel has been lifted.")]
+        public bool Lifted => Liftable && LiftOffset > 0;
         [DataModelProperty(Description = "The vertical displacement of the wheel axle from its normal position due to lifting the axle.", Affix = "m")]
         public float LiftOffset => ThisTrailer.wheelLiftOffsets[wheelIndex];
 
-        [DataModelProperty(Description = "Direction the wheel is facing relative to the trailer (0° = straight)", Affix = "°")]
+        [DataModelProperty(Description = "Whether this wheel may turn in the opposite direction of the truck to help the trailer steer round corners.")]
+        public bool Steerable => ThisTrailer.wheelsSteerable[wheelIndex] != 0;
+        [DataModelProperty(Description = "Direction the wheel is facing relative to the trailer (0° = straight, <0° = turning left, >0° = turning right)", Affix = "°")]
         public float Steering => ThisTrailer.wheelsSteering[wheelIndex] * -360f;
 
         [DataModelProperty(Description = "Current rotational speed of the wheel about the axle in rotations per second.", Affix = "RPS")]

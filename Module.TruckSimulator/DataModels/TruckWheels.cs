@@ -44,14 +44,16 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 
         [DataModelProperty(Description = "Whether this wheel is in contact with the ground.")]
         public bool OnGround => Telemetry.wheelsOnGround[wheelIndex] != 0;
-        public bool Steerable => Telemetry.wheelsSteerable[wheelIndex] != 0;
         public bool Powered => Telemetry.wheelsPowered[wheelIndex] != 0;
 
         [DataModelProperty(Description = "Whether this wheel can be lifted.")]
         public bool Liftable => Telemetry.wheelsLiftable[wheelIndex] != 0;
+        [DataModelProperty(Description = "Whether this wheel has been lifted.")]
+        public bool Lifted => Liftable && LiftOffset > 0;
         [DataModelProperty(Description = "The vertical displacement of the wheel axle from its normal position due to lifting the axle.", Affix = "m")]
         public float LiftOffset => Telemetry.wheelLiftOffsets[wheelIndex];
 
+        public bool Steerable => Telemetry.wheelsSteerable[wheelIndex] != 0;
         [DataModelProperty(Description = "Direction the wheel is facing relative to the trailer (0° = straight)", Affix = "°")]
         public float Steering => Telemetry.wheelSteerings[wheelIndex] * -360f; // Multiply by negative because negative turning is to the right which is counter-intuitive IMO
 
