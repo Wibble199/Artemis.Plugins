@@ -1,14 +1,22 @@
 ﻿using Artemis.Core.DataModelExpansions;
+using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
     public class TruckWheels : ChildDataModel {
 
-        private List<TruckWheel> wheelData;
+        private readonly TruckWheel[] wheelAccessors;
 
-        public TruckWheels(TruckSimulatorDataModel root) : base(root) { }
+        public TruckWheels(TruckSimulatorDataModel root) : base(root) {
+            // Create as many accessors as there are truck wheels the SDK supports
+            wheelAccessors = new TruckWheel[TruckSimulatorMemoryStruct.WheelCount];
+            for (var i = 0; i < TruckSimulatorMemoryStruct.WheelCount; i++)
+                wheelAccessors[i] = new TruckWheel(root, i);
+        }
 
-        public uint WheelCount => Telemetry.wheelCount;
+        [DataModelProperty(Description = "Number of wheels on this truck.")]
+        public int WheelCount => (int)Telemetry.wheelCount;
 
         [DataModelProperty(Description = "Gets whether the wheels are currently in a lifted state. For trucks without liftable wheels, this is always false.")]
         public bool Lifted {
@@ -21,20 +29,15 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
             }
         }
 
-        public List<TruckWheel> WheelData {
-            get {
-                // When the list of wheels is fetched, check to see if the current wheel list has the correct number of elements
-                // I.E. if the truck has 6 wheels, ensure that there are 6 items in this list.
-                if (wheelData == null || wheelData.Count != WheelCount) {
-                    wheelData = new List<TruckWheel>((int)WheelCount);
-                    for (var i = 0; i < WheelCount; i++)
-                        wheelData.Add(new TruckWheel(DataModelRoot, i));
-                }
-                return wheelData;
-            }
-        }
+        [DataModelProperty(Description = "Gets details about individual wheels on the tractor. The first wheel in this list is usually the front left, then front right, 2nd-from-front left, 2nd-from-front right, etc.")]
+        // Only return as many datamodels are there are wheels on the tractor, e.g. don't return an 11th wheel if there are only 10 on the truck.
+        public IEnumerable<TruckWheel> WheelData => wheelAccessors.Take(WheelCount);
     }
 
+
+    /// <summary>
+    /// Data model that accesses details about a specific wheel on the truck itself (determined by 'wheelIndex').
+    /// </summary>
     public class TruckWheel : ChildDataModel {
         private readonly int wheelIndex;
 

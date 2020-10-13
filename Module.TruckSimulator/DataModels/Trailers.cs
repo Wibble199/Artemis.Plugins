@@ -1,13 +1,20 @@
 ﻿using Artemis.Core.DataModelExpansions;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
+
     public class Trailers : ChildDataModel {
 
-        private List<Trailer> trailerData;
+        private readonly Trailer[] trailerAccessors;
 
-        public Trailers(TruckSimulatorDataModel root) : base(root) { }
+        public Trailers(TruckSimulatorDataModel root) : base(root) {
+            // Create an accessor for up-to as many trailers as the SDK supports
+            trailerAccessors = new Trailer[TruckSimulatorMemoryStruct.TrailerCount];
+            for (var i = 0; i < TruckSimulatorMemoryStruct.TrailerCount; i++)
+                trailerAccessors[i] = new Trailer(root, i);
+        }
 
         [DataModelProperty(Description = "Total number of trailers. Note: this includes any that are spawned but not yet hooked up to the truck.")]
         public int TrailerCount {
@@ -30,21 +37,14 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         public bool Attached => Telemetry.trailers != null && Telemetry.trailers[0].attached != 0;
 
         [DataModelProperty(Description = "List containing details about the state of each trailer.")]
-        public List<Trailer> TrailerData {
-            get {
-                // When the list of trailers is fetched, check to see if the current trailer data list has the correct number of trailers
-                // I.E. if there are 2 trailers spawned, ensure that there are 2 items in this list.
-                if (trailerData == null || trailerData.Count != TrailerCount) {
-                    trailerData = new List<Trailer>(TrailerCount);
-                    for (var i = 0; i < TrailerCount; i++)
-                        trailerData.Add(new Trailer(DataModelRoot, i));
-                }
-                return trailerData;
-            }
-        }
+        // Returns as many trailers as there are currently spawned in the world - not necessarily as many as the SDK supports.
+        public IEnumerable<Trailer> TrailerData => trailerAccessors.Take(TrailerCount);
     }
 
 
+    /// <summary>
+    /// Data model that returns data about a particular trailer (determined by the given 'trailerIndex').
+    /// </summary>
     public class Trailer : ChildDataModel {
         private readonly int trailerIndex;
 
@@ -73,29 +73,30 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
 
     public class TrailerWheels : ChildDataModel {
         private readonly int trailerIndex;
-        private List<TrailerWheel> wheelData;
+        private readonly TrailerWheel[] wheelAccessors;
 
         public TrailerWheels(TruckSimulatorDataModel root, int trailerIndex) : base(root) {
             this.trailerIndex = trailerIndex;
+
+            // Create accessors for each of the potential wheels on this trailer
+            wheelAccessors = new TrailerWheel[TruckSimulatorMemoryStruct.WheelCount];
+            for (var i = 0; i < TruckSimulatorMemoryStruct.WheelCount; i++)
+                wheelAccessors[i] = new TrailerWheel(root, trailerIndex, i);
         }
 
-        public uint WheelCount => Telemetry.trailers[trailerIndex].wheelCount;
+        [DataModelProperty(Description = "Number of wheels on this trailer.")]
+        public int WheelCount => (int)Telemetry.trailers[trailerIndex].wheelCount;
 
-        public List<TrailerWheel> WheelData {
-            get {
-                // When the list of wheels is fetched, check to see if the wheel data list has the correct number of elements for this trailer.
-                // I.E. if this trailer has 8 wheels, ensure that there are 8 items in this list.
-                if (wheelData == null || wheelData.Count != WheelCount) {
-                    wheelData = new List<TrailerWheel>((int)WheelCount);
-                    for (var i = 0; i < WheelCount; i++)
-                        wheelData.Add(new TrailerWheel(DataModelRoot, trailerIndex, i));
-                }
-                return wheelData;
-            }
-        }
+        [DataModelProperty(Description = "Gets details about individual wheels on this trailer. The first wheel in the list is usually the front left, then front right, 2nd-from-front left, 2nd-from-front right, etc.")]
+        // Only return as many wheels as there are on the trailer - not usually as many as the SDK supports
+        public IEnumerable<TrailerWheel> WheelData => wheelAccessors.Take(WheelCount);
     }
 
 
+    /// <summary>
+    /// Data model that gets data about a specific wheel of a specific trailer.
+    /// The trailer is determined by the given 'trailerIndex' and the wheel by 'wheelIndex'.
+    /// </summary>
     public class TrailerWheel : ChildDataModel {
         private readonly int trailerIndex;
         private readonly int wheelIndex;

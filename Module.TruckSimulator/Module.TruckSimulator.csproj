@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ShouldIncludeNativeSkiaSharp>false</ShouldIncludeNativeSkiaSharp>
-    
     <UseWPF>true</UseWPF>
     <AssemblyName>Artemis.Plugins.Modules.TruckSimulator</AssemblyName>
     <RootNamespace>Artemis.Plugins.Modules.TruckSimulator</RootNamespace>
@@ -30,7 +29,6 @@
   </ItemGroup>
 
   
-
   <ItemGroup>
     <Reference Include="Artemis.Core">
       <HintPath>C:\Program Files\Artemis\Artemis.Core.dll</HintPath>

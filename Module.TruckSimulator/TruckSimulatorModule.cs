@@ -28,7 +28,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator {
         }
 
         public override void Update(double deltaTime) {
-            if (!IsActivatedOverride)
+            if (!IsActivatedOverride && DataModel != null)
                 DataModel.Telemetry = mappedFileReader?.Read() ?? default;
         }
 
