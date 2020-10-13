@@ -102,10 +102,13 @@ namespace Artemis.Plugins.Modules.TruckSimulator.DataModels {
         [DataModelProperty(Description = "Current air pressure of the brakes in pound-force per square inch.", Affix = "psi")]
         public float AirPressure => Telemetry.airPressure;
 
+        [DataModelProperty(Description = "Maximum air pressure of the brakes in pound-force per square inch.", Affix = "psi")]
+        public float AirPressureMaximum => 150f;
+
         [DataModelProperty(Description = "Whether the air pressure warning light is current lit.")]
         public bool AirPressureWarningActive => Telemetry.airPressureWarning != 0;
         [DataModelProperty(Description = "Whether the emergency brakes are engaged due to low air pressure.")]
-        public bool AirPressureEmergencyActive => Telemetry.airPressureWarning != 0;
+        public bool AirPressureEmergencyActive => Telemetry.airPressureEmergency != 0;
 
         [DataModelProperty(Description = "Amount of air pressure below which the air pressure warning is active.", Affix = "psi")]
         public float AirPressureWarningLevel => Telemetry.airPressureWarningLevel;
