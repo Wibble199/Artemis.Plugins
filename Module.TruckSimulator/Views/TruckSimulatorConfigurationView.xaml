@@ -26,7 +26,9 @@
 
         <TextBlock TextWrapping="Wrap">
             <Run>The source for this ETS2/ATS plugin can be found at</Run>
-            <Hyperlink RequestNavigate="{s:Action OpenPluginGithub}">https://github.com/RenCloud/scs-sdk-plugin</Hyperlink>
+            <Hyperlink RequestNavigate="{s:Action OpenHyperlink}" NavigateUri="https://github.com/RenCloud/scs-sdk-plugin">
+                https://github.com/RenCloud/scs-sdk-plugin
+            </Hyperlink>
             <Run>.</Run>
         </TextBlock>
     </StackPanel>
