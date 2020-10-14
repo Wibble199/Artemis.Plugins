@@ -1,7 +1,7 @@
 ﻿using Artemis.Core;
 using Microsoft.Win32;
-using System.Diagnostics;
 using System.IO;
+using System.Windows.Navigation;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels {
     public class TruckSimulatorConfigurationViewModel : PluginConfigurationViewModel {
@@ -68,8 +68,8 @@ namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels {
             return dialog.ShowDialog() == true ? Path.GetDirectoryName(Path.GetDirectoryName(dialog.FileName)) : null;
         }
 
-        public void OpenPluginGithub() {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/RenCloud/scs-sdk-plugin") { CreateNoWindow = true });
+        public void OpenHyperlink(object sender, RequestNavigateEventArgs e) {
+            Utilities.OpenUrl(e.Uri.AbsoluteUri);
         }
     }
 }
