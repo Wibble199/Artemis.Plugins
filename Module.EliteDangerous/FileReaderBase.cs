@@ -10,7 +10,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous {
     internal abstract class FileReaderBase : IDisposable {
 
         // Lock and flag prevents accidently reading from a closed stream
-        private readonly object streamLock = new object();
+        private readonly object streamLock = new();
         private FileStream fileStream;
         private StreamReader streamReader;
         private readonly bool tailMode;

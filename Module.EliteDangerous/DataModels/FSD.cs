@@ -7,8 +7,8 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public bool IsCoolingDown { get; internal set; }
         public bool IsMassLocked { get; internal set; }
 
-        public DataModelEvent StartJump { get; } = new DataModelEvent();
-        public DataModelEvent Jump { get; } = new DataModelEvent();
-        public DataModelEvent Target { get; } = new DataModelEvent();
+        public DataModelEvent StartJump { get; } = new();
+        public DataModelEvent Jump { get; } = new();
+        public DataModelEvent Target { get; } = new();
     }
 }

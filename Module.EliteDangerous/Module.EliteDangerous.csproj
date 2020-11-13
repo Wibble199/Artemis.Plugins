@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
     <ShouldIncludeNativeSkiaSharp>false</ShouldIncludeNativeSkiaSharp>
     <UseWPF>true</UseWPF>
     <AssemblyName>Artemis.Plugins.Modules.EliteDangerous</AssemblyName>

@@ -16,14 +16,14 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
 
         public int RemainingJumpsInRoute { get; internal set; }
 
-        public DataModelEvent ApproachBody { get; } = new DataModelEvent();
-        public DataModelEvent LeaveBody { get; } = new DataModelEvent();
+        public DataModelEvent ApproachBody { get; } = new();
+        public DataModelEvent LeaveBody { get; } = new();
 
-        public DataModelEvent EnterSupercruise { get; } = new DataModelEvent();
-        public DataModelEvent ExitSupercruise { get; } = new DataModelEvent();
+        public DataModelEvent EnterSupercruise { get; } = new();
+        public DataModelEvent ExitSupercruise { get; } = new();
 
-        public DataModelEvent FSDTarget { get; } = new DataModelEvent();
+        public DataModelEvent FSDTarget { get; } = new();
 
-        public DockStatus DockStatus { get; } = new DockStatus();
+        public DockStatus DockStatus { get; } = new();
     }
 }

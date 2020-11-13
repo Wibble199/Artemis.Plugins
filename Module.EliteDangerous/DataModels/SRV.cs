@@ -14,7 +14,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         [DataModelProperty(Description = "Whether the SRV's turret is retracted (e.g. when close to the mothership).")]
         public bool TurretRetracted { get; internal set; }
 
-        public DataModelEvent Launched { get; } = new DataModelEvent();
-        public DataModelEvent Docked { get; } = new DataModelEvent();
+        public DataModelEvent Launched { get; } = new();
+        public DataModelEvent Docked { get; } = new();
     }
 }

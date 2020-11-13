@@ -35,7 +35,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
     /// </summary>
     public class JournalEventConverter : JsonConverter {
 
-        private static readonly Dictionary<string, Type> knownEventTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, Type> knownEventTypes = new(StringComparer.OrdinalIgnoreCase);
 
         static JournalEventConverter() {
             // Populate the known event subtype dictionary with any type that implements IJournalEvent
