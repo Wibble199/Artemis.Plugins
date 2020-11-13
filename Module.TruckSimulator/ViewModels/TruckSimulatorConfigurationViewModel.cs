@@ -1,4 +1,5 @@
 ﻿using Artemis.Core;
+using Artemis.UI.Shared;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Navigation;

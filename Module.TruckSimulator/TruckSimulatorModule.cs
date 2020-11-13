@@ -3,7 +3,6 @@ using Artemis.Core.Modules;
 using SkiaSharp;
 using Artemis.Plugins.Modules.TruckSimulator.DataModels;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
-using Artemis.Plugins.Modules.TruckSimulator.ViewModels;
 
 namespace Artemis.Plugins.Modules.TruckSimulator {
 
@@ -12,13 +11,11 @@ namespace Artemis.Plugins.Modules.TruckSimulator {
 
         private MappedFileReader<TruckSimulatorMemoryStruct> mappedFileReader;
 
-        public override void EnablePlugin() {
+        public override void Enable() {
             DisplayName = "Truck Simulator (ETS2 & ATS)";
             DisplayIcon = "Truck";
 
             DefaultPriorityCategory = ModulePriorityCategory.Application;
-
-            ConfigurationDialog = new PluginConfigurationDialog<TruckSimulatorConfigurationViewModel>();
 
             ActivationRequirementMode = ActivationRequirementType.Any;
             ActivationRequirements.Add(new ProcessActivationRequirement("eurotrucks2"));
@@ -32,7 +29,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator {
                 DataModel.Telemetry = mappedFileReader?.Read() ?? default;
         }
 
-        public override void DisablePlugin() {
+        public override void Disable() {
             mappedFileReader?.Dispose();
             mappedFileReader = null;
         }
