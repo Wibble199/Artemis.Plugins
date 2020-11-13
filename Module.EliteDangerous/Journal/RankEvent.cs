@@ -2,9 +2,9 @@
 
 namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
-    [JournalEventType("Rank")]
     // Occurs at game startup
     internal sealed class RankEvent : IJournalEvent {
+
         public CombatRank Combat;
         public TradeRank Trade;
         public ExplorerRank Explore;

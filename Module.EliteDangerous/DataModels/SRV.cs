@@ -10,7 +10,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public bool HighBeamActive { get; internal set; }
         public bool DriveAssistActive { get; internal set; }
 
-        [DataModelProperty(Description = "The SRV's turret is retracted when close to the mothership.")]
+        [DataModelProperty(Description = "Whether the SRV's turret is retracted (e.g. when close to the mothership).")]
         public bool TurretRetracted { get; internal set; }
     }
 }

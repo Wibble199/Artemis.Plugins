@@ -21,7 +21,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous {
 
         public override void Enable() {
             DisplayName = "Elite: Dangerous";
-            DisplayIcon = "StarFourPoints";
+            DisplayIcon = "Elite-Dangerous.svg";
             DefaultPriorityCategory = ModulePriorityCategory.Application;
             ActivationRequirements.Add(new ProcessActivationRequirement("EliteDangerous64"));
 

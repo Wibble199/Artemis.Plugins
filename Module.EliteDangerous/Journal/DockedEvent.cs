@@ -2,14 +2,14 @@
 
 namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
-    internal sealed class FSDJumpEvent : IJournalEvent {
+    internal class DockedEvent : IJournalEvent {
 
+        public string StationName;
         public string StarSystem;
-        public float JumpDist;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            // Does not need to update FSD statuses (charging, etc.), this is done via Status.json.
-            model.Ship.FSD.Jump.Trigger();
+            // Does not need to update IsDocked, this is done via Status.json.
+            model.Ship.DockStatus.Docked.Trigger();
         }
     }
 }

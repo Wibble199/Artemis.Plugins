@@ -34,11 +34,19 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
         }
 
         /// <summary>
-        /// Parses a single journal line and if it is a known event applies it to the datamodel;.
+        /// Parses a single journal line and if it is a known event applies it to the datamodel.
         /// </summary>
         protected override void OnContentRead(EliteDangerousDataModel dataModel, string line) {
             var @event = JsonConvert.DeserializeObject<IJournalEvent>(line, JournalEvent.JournalEventSettings);
-            @event?.ApplyUpdate(dataModel);
+
+            if (@event is ContinuedEvent continued) {
+                // If a "Continued" event is found, move onto the continuation file.
+                // TODO: Handle continue event
+
+            } else {
+                // For any other events, apply them normally to the data model.
+                @event?.ApplyUpdate(dataModel);
+            }
         }
     }
 }

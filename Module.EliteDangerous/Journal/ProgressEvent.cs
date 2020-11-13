@@ -2,10 +2,10 @@
 
 namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
-    [JournalEventType("Progress")]
     // Occurs at game startup
     // Represents how far the player is to ranking up (0 -> 100).
     internal sealed class ProgressEvent : IJournalEvent {
+
         public int Combat;
         public int Trade;
         public int Explore;
