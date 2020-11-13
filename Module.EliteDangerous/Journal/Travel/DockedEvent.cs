@@ -1,6 +1,6 @@
 ﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
 
     internal class DockedEvent : IJournalEvent {
 

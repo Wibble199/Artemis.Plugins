@@ -1,4 +1,5 @@
 ﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+using Artemis.Plugins.Modules.EliteDangerous.Journal.Other;
 using Newtonsoft.Json;
 using System;
 using System.IO;

@@ -1,6 +1,6 @@
 ﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Startup {
 
     // Occurs at game startup
     // Represents how far the player is to ranking up (0 -> 100).
