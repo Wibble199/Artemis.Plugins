@@ -1,6 +1,6 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 
-namespace Module.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     [JournalEventType("Progress")]
     // Occurs at game startup

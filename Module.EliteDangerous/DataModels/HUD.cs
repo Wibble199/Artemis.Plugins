@@ -1,6 +1,6 @@
-﻿using Module.EliteDangerous.Status;
+﻿using Artemis.Plugins.Modules.EliteDangerous.Status;
 
-namespace Module.EliteDangerous.DataModels {
+namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class HUD {
         public GuiPanel ActivePanel { get; internal set; }
         public bool AnalysisMode { get; internal set; }

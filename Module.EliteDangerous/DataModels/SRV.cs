@@ -1,6 +1,6 @@
 ﻿using Artemis.Core.DataModelExpansions;
 
-namespace Module.EliteDangerous.DataModels {
+namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class SRV {
 
         public bool TurretViewActive { get; internal set; }

@@ -1,11 +1,11 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Module.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     /// <summary>
     /// Interface for parsed C# objects for journal events.

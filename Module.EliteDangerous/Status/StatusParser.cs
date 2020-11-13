@@ -1,8 +1,8 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace Module.EliteDangerous.Status {
+namespace Artemis.Plugins.Modules.EliteDangerous.Status {
 
     internal class StatusParser : FileReaderBase {
 

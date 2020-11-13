@@ -1,7 +1,7 @@
 ﻿
 // http://edcodex.info/?m=doc
 
-namespace Module.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     public enum StarClass {
         O, B, A, F, G, K, M, L, T, Y, // Main sequence

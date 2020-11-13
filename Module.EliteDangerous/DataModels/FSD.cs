@@ -1,4 +1,4 @@
-﻿namespace Module.EliteDangerous.DataModels {
+﻿namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class FSD {
         public bool IsCharging { get; internal set; }
         public bool IsJumping { get; internal set; }

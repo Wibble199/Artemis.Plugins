@@ -1,4 +1,4 @@
-﻿namespace Module.EliteDangerous.Status {
+﻿namespace Artemis.Plugins.Modules.EliteDangerous.Status {
     public sealed class StatusJson {
         public StatusFlags Flags;
         public int[] Pips = new[] { 0, 0, 0 };

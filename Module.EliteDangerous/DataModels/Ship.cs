@@ -1,6 +1,6 @@
 ﻿using Artemis.Core.DataModelExpansions;
 
-namespace Module.EliteDangerous.DataModels {
+namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Ship {
 
         public bool ShieldsActive { get; internal set; }

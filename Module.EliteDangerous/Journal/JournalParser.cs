@@ -1,9 +1,9 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 
-namespace Module.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     internal class JournalParser : FileReaderBase {
 

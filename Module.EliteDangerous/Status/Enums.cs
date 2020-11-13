@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Module.EliteDangerous.Status {
+namespace Artemis.Plugins.Modules.EliteDangerous.Status {
 
     // List of statuses found here
     // https://elite-journal.readthedocs.io/en/latest/Status%20File/

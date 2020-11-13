@@ -1,6 +1,6 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 
-namespace Module.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     [JournalEventType("StartJump")]
     // Occurs when the user _initiates_ the jump, I.E. when the countdown starts ("frameshift drive charging")

@@ -1,6 +1,6 @@
 ﻿using Artemis.Core.DataModelExpansions;
 
-namespace Module.EliteDangerous.DataModels {
+namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Fuel {
         [DataModelProperty(Name = "Fuel (Main)", Description = "Amount of fuel in the main fuel tank (thick bar on the HUD).")]
         public float FuelMain { get; internal set; }
