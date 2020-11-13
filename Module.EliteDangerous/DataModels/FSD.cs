@@ -9,5 +9,6 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
 
         public DataModelEvent StartJump { get; } = new DataModelEvent();
         public DataModelEvent Jump { get; } = new DataModelEvent();
+        public DataModelEvent Target { get; } = new DataModelEvent();
     }
 }

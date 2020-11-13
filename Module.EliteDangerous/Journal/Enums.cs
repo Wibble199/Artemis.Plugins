@@ -29,6 +29,26 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
         Hyperspace
     }
 
+    public enum BodyType {
+        Null,
+        Star,
+        Planet,
+        PlanetaryRing,
+        StellarRing,
+        Station,
+        AsteroidCluster
+    }
+
+    public enum DockingDenyReason {
+        NoSpace,
+        TooLarge,
+        Hostile,
+        Offences,
+        Distance,
+        ActiveFighter,
+        NoReason
+    }
+
     public enum CombatRank {
         Harmless = 0,
         MostlyHarmless = 1,

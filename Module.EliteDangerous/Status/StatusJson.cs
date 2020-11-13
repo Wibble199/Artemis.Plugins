@@ -7,10 +7,10 @@
         public Fuel Fuel = new Fuel();
         public float Cargo;
         public LegalState LegalState;
-        public float Latitude;
-        public float Longitude;
-        public float Altitude;
-        public float Heading;
+        public double? Latitude;
+        public double? Longitude;
+        public double? Altitude;
+        public double? Heading;
     }
 
     public sealed class Fuel {

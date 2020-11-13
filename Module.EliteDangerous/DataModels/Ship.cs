@@ -7,7 +7,6 @@
         public bool BeingInterdicted { get; internal set; }
 
         public ShipSystems Systems { get; } = new ShipSystems();
-        public DockStatus DockStatus { get; } = new DockStatus();
         public Fuel Fuel { get; } = new Fuel();
         public FSD FSD { get; } = new FSD();
     }

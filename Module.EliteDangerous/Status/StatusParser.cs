@@ -38,9 +38,15 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Status {
             dataModel.HUD.AnalysisMode = Has(StatusFlags.AnalysisMode);
             dataModel.HUD.NightVision = Has(StatusFlags.NightVision);
 
+            // Nav
+            dataModel.Navigation.DockStatus.IsDocked = Has(StatusFlags.Docked);
+            dataModel.Navigation.DockStatus.IsLanded = Has(StatusFlags.Landed);
+            dataModel.Navigation.Latitude = status.Latitude;
+            dataModel.Navigation.Longitude = status.Longitude;
+            dataModel.Navigation.Altitude = status.Altitude;
+            dataModel.Navigation.Heading = status.Heading;
+
             // Ship
-            dataModel.Ship.DockStatus.IsDocked = Has(StatusFlags.Docked);
-            dataModel.Ship.DockStatus.IsLanded = Has(StatusFlags.Landed);
             dataModel.Ship.InSupercruise = Has(StatusFlags.Supercruise);
             dataModel.Ship.Systems.LandingGearDeployed = Has(StatusFlags.LandingGearDeployed);
             dataModel.Ship.Systems.CargoScoopDeployed = Has(StatusFlags.CargoScoopDeployed);
