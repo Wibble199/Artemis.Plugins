@@ -1,5 +1,6 @@
 ﻿using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
+using Artemis.Plugins.Modules.EliteDangerous.Journal;
 
 namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class DockStatus {
@@ -11,30 +12,48 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
 
 
         [DataModelProperty(Description = "Fired when the ship docks at a station.")]
-        public DataModelEvent Docked { get; } = new();
+        public DataModelEvent<DockingEventArgs> Docked { get; } = new();
 
         [DataModelProperty(Description = "Fired when the pilot cancels a station docking request.")]
-        public DataModelEvent DockingRequestCancelled { get; } = new();
+        public DataModelEvent<DockingEventArgs> DockingRequestCancelled { get; } = new();
 
         [DataModelProperty(Description = "Fired when the station denies a pilot's docking request.")]
-        public DataModelEvent DockingRequestDenied { get; } = new();
+        public DataModelEvent<DockingRequestDeniedEventArgs> DockingRequestDenied { get; } = new();
 
         [DataModelProperty(Description = "Fired when the station grants a pilot's docking request.")]
-        public DataModelEvent DockingRequestGranted { get; } = new();
+        public DataModelEvent<DockingRequestGrantedEventArgs> DockingRequestGranted { get; } = new();
 
         [DataModelProperty(Description = "Fired when a pilot requests docking access to a station.")]
-        public DataModelEvent DockingRequested { get; } = new();
+        public DataModelEvent<DockingEventArgs> DockingRequested { get; } = new();
 
         [DataModelProperty(Description = "Fired when the alloted time on a docking request expires.")]
-        public DataModelEvent DockingRequestTimeout { get; } = new();
+        public DataModelEvent<DockingEventArgs> DockingRequestTimeout { get; } = new();
 
         [DataModelProperty(Description = "Fired when the ship undocks from a station.")]
-        public DataModelEvent Undocked { get; } = new();
+        public DataModelEvent<DockingEventArgs> Undocked { get; } = new();
 
         [DataModelProperty(Description = "Fired when the ship touches down on a planet surface.")]
-        public DataModelEvent Touchdown { get; } = new();
+        public DataModelEvent<LandingEventArgs> Touchdown { get; } = new();
 
         [DataModelProperty(Description = "Fired when the ship takes off from a planet's surface.")]
-        public DataModelEvent Liftoff { get; } = new();
+        public DataModelEvent<LandingEventArgs> Liftoff { get; } = new();
+    }
+
+
+    public class DockingEventArgs : DataModelEventArgs {
+        public string StationName { get; init; }
+    }
+
+    public class DockingRequestDeniedEventArgs : DockingEventArgs {
+        public DockingDenyReason Reason { get; init; }
+    }
+
+    public class DockingRequestGrantedEventArgs : DockingEventArgs {
+        public int LandingPad { get; init; }
+    }
+
+    public class LandingEventArgs : DataModelEventArgs {
+        public bool PlayerControlled { get; init; }
+        public string NearestDestination { get; init; }
     }
 }

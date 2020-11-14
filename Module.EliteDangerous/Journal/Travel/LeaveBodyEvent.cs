@@ -10,7 +10,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
             // Not sure if it is possible for the current body to be changed between an ApproachBody and a LeaveBody
             // event firing, but just to be sure, don't clear the current body if it has been set to something else.
             if (model.Navigation.CurrentBody == Body)
-                model.Navigation.CurrentBody = null;
+                model.Navigation.UpdateLocation(StarSystem, null);
             model.Navigation.LeaveBody.Trigger();
         }
     }

@@ -19,9 +19,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
             // Does not need to update InSupercruise, this is done via Status.json
-            model.Navigation.CurrentSystem = StarSystem;
-            model.Navigation.CurrentBody = Body;
-            model.Navigation.CurrentBodyType = BodyType;
+            model.Navigation.UpdateLocation(StarSystem, Body, BodyType);
             model.Navigation.ExitSupercruise.Trigger();
         }
     }

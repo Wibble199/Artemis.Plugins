@@ -12,10 +12,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string StationName;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.CurrentSystem = StarSystem;
-            model.Navigation.CurrentBody = Body;
-            model.Navigation.CurrentBodyType = BodyType;
-            model.Navigation.CurrentStation = StationName;
+            model.Navigation.UpdateLocation(StarSystem, Body, BodyType, StationName);
         }
     }
 }

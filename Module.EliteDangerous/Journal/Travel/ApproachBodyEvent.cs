@@ -7,8 +7,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string Body;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.CurrentSystem = StarSystem;
-            model.Navigation.CurrentBody = Body;
+            model.Navigation.UpdateLocation(StarSystem, Body);
             model.Navigation.ApproachBody.Trigger();
         }
     }

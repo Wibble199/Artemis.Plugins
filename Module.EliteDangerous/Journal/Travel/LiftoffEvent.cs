@@ -7,7 +7,10 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string NearestDestination;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.DockStatus.Liftoff.Trigger();
+            model.Navigation.DockStatus.Liftoff.Trigger(new LandingEventArgs {
+                PlayerControlled = PlayerControlled,
+                NearestDestination = NearestDestination
+            });
         }
     }
 }
