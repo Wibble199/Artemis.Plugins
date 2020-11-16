@@ -13,10 +13,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public DataModelEvent<StartJumpEventArgs> StartJump { get; } = new();
 
         [DataModelProperty(Description = "Occurs when a hyperspace jump completes (i.e. as you enter a new system).")]
-        public DataModelEvent<JumpEventArgs> Jump { get; } = new();
-
-        [DataModelProperty(Description = "Occurs when selecting a new star in the galaxy map. Also occurs mid-jump to update the route.")]
-        public DataModelEvent Target { get; } = new();
+        public DataModelEvent<CompleteJumpEventArgs> CompleteJump { get; } = new();
     }
 
 
@@ -26,7 +23,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public StarClass? StarClass { get; init; }
     }
 
-    public class JumpEventArgs : DataModelEventArgs {
+    public class CompleteJumpEventArgs : DataModelEventArgs {
         public StarClass StarClass { get; init; }
         public float JumpDistance { get; init; }
         public float FuelUsed { get; init; }

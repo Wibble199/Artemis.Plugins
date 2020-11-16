@@ -7,7 +7,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public bool TurretViewActive { get; internal set; }
 
         public bool HandbrakeActive { get; internal set; }
-        public bool LightsOn { get; internal set; }
+        public bool LightsActive { get; internal set; }
         public bool HighBeamActive { get; internal set; }
         public bool DriveAssistActive { get; internal set; }
 

@@ -9,10 +9,10 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public bool CargoScoopDeployed { get; internal set; }
 
         [DataModelProperty(Description = "When the ship's heat level is above 100%.")]
-        public bool Overheating { get; internal set; }
+        public bool IsOverheating { get; internal set; }
 
-        public bool LightsOn { get; internal set; }
-        public bool SilentRunning { get; internal set; }
+        public bool LightsActive { get; internal set; }
+        public bool SilentRunningActive { get; internal set; }
         public bool FlightAssistActive { get; internal set; }
 
         [DataModelProperty(Description = "The number of power pips diverted to systems. Value between 0 and 4. May be a half value.", MinValue = 0f, MaxValue = 4f)]

@@ -34,9 +34,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Status {
             dataModel.Player.InWing = Has(StatusFlags.InWing);
 
             // HUD
-            dataModel.HUD.ActivePanel = status.GuiFocus;
-            dataModel.HUD.AnalysisMode = Has(StatusFlags.AnalysisMode);
-            dataModel.HUD.NightVision = Has(StatusFlags.NightVision);
+            dataModel.HUD.FocusedPanel = status.GuiFocus;
+            dataModel.HUD.AnalysisModeActive = Has(StatusFlags.AnalysisMode);
+            dataModel.HUD.NightVisionActive = Has(StatusFlags.NightVision);
 
             // Nav
             dataModel.Navigation.DockStatus.IsDocked = Has(StatusFlags.Docked);
@@ -47,17 +47,17 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Status {
             dataModel.Navigation.Heading = status.Heading;
 
             // Ship
-            dataModel.Ship.InSupercruise = Has(StatusFlags.Supercruise);
+            dataModel.Ship.IsInSupercruise = Has(StatusFlags.Supercruise);
             dataModel.Ship.Systems.LandingGearDeployed = Has(StatusFlags.LandingGearDeployed);
             dataModel.Ship.Systems.CargoScoopDeployed = Has(StatusFlags.CargoScoopDeployed);
             dataModel.Ship.Systems.HardpointsDeployed = Has(StatusFlags.HardpointsDeployed);
             dataModel.Ship.Systems.ShieldsActive = Has(StatusFlags.ShieldsUp);
             dataModel.Ship.Systems.FlightAssistActive = !Has(StatusFlags.FlightAssistOff);
-            dataModel.Ship.Systems.LightsOn = Has(StatusFlags.PilotingMainShip) && Has(StatusFlags.LightsOn);
-            dataModel.Ship.Systems.SilentRunning = Has(StatusFlags.SilentRunning);
-            dataModel.Ship.Systems.Overheating = Has(StatusFlags.Overheating);
-            dataModel.Ship.InDanger = Has(StatusFlags.InDanger);
-            dataModel.Ship.BeingInterdicted = Has(StatusFlags.BeingInterdicted);
+            dataModel.Ship.Systems.LightsActive = Has(StatusFlags.PilotingMainShip) && Has(StatusFlags.LightsOn);
+            dataModel.Ship.Systems.SilentRunningActive = Has(StatusFlags.SilentRunning);
+            dataModel.Ship.Systems.IsOverheating = Has(StatusFlags.Overheating);
+            dataModel.Ship.IsInDanger = Has(StatusFlags.InDanger);
+            dataModel.Ship.IsBeingInterdicted = Has(StatusFlags.BeingInterdicted);
 
             // Ship power
             dataModel.Ship.Systems.SystemPips = status.Pips[0] / 2f;
@@ -81,7 +81,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Status {
             dataModel.SRV.TurretViewActive = Has(StatusFlags.SRVTurretView);
             dataModel.SRV.TurretRetracted = Has(StatusFlags.SRVTurretRetracted);
             dataModel.SRV.DriveAssistActive = Has(StatusFlags.SRVDriveAssist);
-            dataModel.SRV.LightsOn = Has(StatusFlags.PilotingSRV) && Has(StatusFlags.LightsOn);
+            dataModel.SRV.LightsActive = Has(StatusFlags.PilotingSRV) && Has(StatusFlags.LightsOn);
             dataModel.SRV.HighBeamActive = Has(StatusFlags.SRVHighBeam);
         }
     }

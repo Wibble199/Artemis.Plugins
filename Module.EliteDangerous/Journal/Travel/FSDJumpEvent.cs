@@ -12,7 +12,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public void ApplyUpdate(EliteDangerousDataModel model) {
             // Does not need to update FSD statuses (charging, etc.), this is done via Status.json.
             model.Navigation.UpdateLocation(StarSystem, Body, BodyType.Star);
-            model.Ship.FSD.Jump.Trigger(new JumpEventArgs {
+            model.Ship.FSD.CompleteJump.Trigger(new CompleteJumpEventArgs {
                 // The star class is not passed to the FSDJump event, but we can get it from the most
                 // recent "StartJump" event.
                 StarClass = model.Ship.FSD.StartJump.LastEventArguments.StarClass ?? default,
