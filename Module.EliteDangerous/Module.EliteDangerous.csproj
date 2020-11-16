@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <ShouldIncludeNativeSkiaSharp>false</ShouldIncludeNativeSkiaSharp>
     <UseWPF>true</UseWPF>
@@ -19,7 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-	<PackageReference Include="SkiaSharp" Version="1.68.3">
+	<PackageReference Include="SkiaSharp" Version="2.80.2">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Stylet" Version="1.3.4">
@@ -62,7 +62,7 @@
 	<!-- Override the published DLLs with the built DLLs to enable edit & continue -->
 	<Target Name="PostBuildLocalDlls" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
 		<ItemGroup>
-			<DllFiles Include="$(TargetDir)\**\*.dll" />
+			<DllFiles Include="$(TargetDir)\!ref\*.dll" />
 		</ItemGroup>
 		<Copy SourceFiles="@(DllFiles)" DestinationFolder="$(ProgramData)\Artemis\Plugins\$(ProjectName)" />
 	</Target>
