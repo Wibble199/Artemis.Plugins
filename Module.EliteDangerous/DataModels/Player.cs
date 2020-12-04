@@ -1,4 +1,5 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.Status;
+﻿using Artemis.Core;
+using Artemis.Plugins.Modules.EliteDangerous.Status;
 
 namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Player {
@@ -6,5 +7,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public Ranks Ranks { get; } = new();
         public LegalState LegalState { get; internal set; }
         public bool InWing { get; internal set; }
+
+        public DataModelEvent Died { get; } = new();
     }
 }

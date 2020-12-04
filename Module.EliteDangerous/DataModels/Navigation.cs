@@ -15,6 +15,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public double? Altitude { get; internal set; }
         public double? Heading { get; internal set; }
 
+        public float MaximumUnladenJumpRange { get; internal set; }
         public int RemainingJumpsInRoute { get; internal set; }
 
         public DataModelEvent ApproachBody { get; } = new();
