@@ -94,6 +94,6 @@ namespace Artemis.Plugins.Modules.EliteDangerous {
         /// <param name="content">The content of the file/current line.</param>
         protected abstract void OnContentRead(EliteDangerousDataModel dataModel, string content);
 
-        public void Dispose() => CloseFile();
+        public virtual void Dispose() => CloseFile();
     }
 }

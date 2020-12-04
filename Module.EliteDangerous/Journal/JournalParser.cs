@@ -1,5 +1,4 @@
 ﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
-using Artemis.Plugins.Modules.EliteDangerous.Journal.Other;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -8,10 +7,17 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     internal class JournalParser : FileReaderBase {
 
+        private const string JournalFileFilter = "Journal*.*.log";
+
         private readonly string dataDirectory;
+        private FileSystemWatcher journalFileWatcher;
 
         public JournalParser(string dataDirectory) : base(true) {
             this.dataDirectory = dataDirectory;
+
+            // Create file system watcher to watch for when new journal files are created.
+            journalFileWatcher = new FileSystemWatcher(dataDirectory, JournalFileFilter);
+            journalFileWatcher.Created += JournalFileWatcher_Created;
         }
 
         /// <summary>
@@ -19,7 +25,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
         /// </summary>
         private string LatestJournal {
             get {
-                var logFiles = Directory.GetFiles(dataDirectory, "Journal.*.log");
+                var logFiles = Directory.GetFiles(dataDirectory, JournalFileFilter);
                 Array.Sort(logFiles);
                 return logFiles[^1];
             }
@@ -29,9 +35,14 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
         /// When the module is activated, begin reading the latest journal file.
         /// </summary>
         public override void Activate() {
+            journalFileWatcher.EnableRaisingEvents = true;
             OpenFile(LatestJournal);
+        }
 
-            // TODO: Add support for when a new journal log file is created
+        /// <inheritdoc />
+        public override void Deactivate() {
+            journalFileWatcher.EnableRaisingEvents = false;
+            base.Deactivate();
         }
 
         /// <summary>
@@ -39,15 +50,21 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
         /// </summary>
         protected override void OnContentRead(EliteDangerousDataModel dataModel, string line) {
             var @event = JsonConvert.DeserializeObject<IJournalEvent>(line, JournalEvent.JournalEventSettings);
+            @event?.ApplyUpdate(dataModel);
+        }
 
-            if (@event is ContinuedEvent continued) {
-                // If a "Continued" event is found, move onto the continuation file.
-                // TODO: Handle continue event
+        /// <summary>
+        /// Handles when a new journal file is created by opening the newest file.
+        /// </summary>
+        private void JournalFileWatcher_Created(object sender, FileSystemEventArgs e) {
+            OpenFile(LatestJournal);
+        }
 
-            } else {
-                // For any other events, apply them normally to the data model.
-                @event?.ApplyUpdate(dataModel);
-            }
+        /// <inheritdoc />
+        public override void Dispose() {
+            journalFileWatcher.Dispose();
+            journalFileWatcher = null;
+            base.Dispose();
         }
     }
 }
