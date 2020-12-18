@@ -9,7 +9,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public bool IsCoolingDown { get; internal set; }
         public bool IsMassLocked { get; internal set; }
 
-        [DataModelProperty(Description = "Occurs when the user begins charging the FSD for a jump (i.e. when the countdown starts).")]
+        [DataModelProperty(Description = "Occurs when the jump is first initiated (i.e. when the countdown starts after charging).")]
         public DataModelEvent<StartJumpEventArgs> StartJump { get; } = new();
 
         [DataModelProperty(Description = "Occurs when a hyperspace jump completes (i.e. as you enter a new system).")]
