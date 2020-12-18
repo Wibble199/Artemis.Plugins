@@ -96,6 +96,14 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
         Unknown
     }
 
+    public enum DockingStatus {
+        Cancelled,
+        Granted,
+        Denied,
+        Pending,
+        Timeout
+    }
+
     public enum DockingDenyReason {
         NoSpace,
         TooLarge,

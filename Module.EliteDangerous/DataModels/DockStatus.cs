@@ -14,20 +14,8 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         [DataModelProperty(Description = "Fired when the ship docks at a station.")]
         public DataModelEvent<DockingEventArgs> Docked { get; } = new();
 
-        [DataModelProperty(Description = "Fired when the pilot cancels a station docking request.")]
-        public DataModelEvent<DockingEventArgs> DockingRequestCancelled { get; } = new();
-
-        [DataModelProperty(Description = "Fired when the station denies a pilot's docking request.")]
-        public DataModelEvent<DockingRequestDeniedEventArgs> DockingRequestDenied { get; } = new();
-
-        [DataModelProperty(Description = "Fired when the station grants a pilot's docking request.")]
-        public DataModelEvent<DockingRequestGrantedEventArgs> DockingRequestGranted { get; } = new();
-
-        [DataModelProperty(Description = "Fired when a pilot requests docking access to a station.")]
-        public DataModelEvent<DockingEventArgs> DockingRequested { get; } = new();
-
-        [DataModelProperty(Description = "Fired when the alloted time on a docking request expires.")]
-        public DataModelEvent<DockingEventArgs> DockingRequestTimeout { get; } = new();
+        [DataModelProperty(Description = "Fired when the pilot's docking request status changes.")]
+        public DataModelEvent<DockingEventArgs> RequestStatusChanged { get; } = new();
 
         [DataModelProperty(Description = "Fired when the ship undocks from a station.")]
         public DataModelEvent<DockingEventArgs> Undocked { get; } = new();
@@ -44,12 +32,10 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public string StationName { get; init; }
     }
 
-    public class DockingRequestDeniedEventArgs : DockingEventArgs {
-        public DockingDenyReason Reason { get; init; }
-    }
-
-    public class DockingRequestGrantedEventArgs : DockingEventArgs {
-        public int LandingPad { get; init; }
+    public class DockingRequestStatusChangedEventArgs : DockingEventArgs {
+        public DockingStatus Status { get; init; }
+        public int? LandingPad { get; init; }
+        public DockingDenyReason? DenyReason { get; init; }
     }
 
     public class LandingEventArgs : DataModelEventArgs {

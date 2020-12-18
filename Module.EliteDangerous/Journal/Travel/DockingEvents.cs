@@ -20,8 +20,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string StationName;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.DockStatus.DockingRequestCancelled.Trigger(new DockingEventArgs {
-                StationName = StationName
+            model.Navigation.DockStatus.RequestStatusChanged.Trigger(new DockingRequestStatusChangedEventArgs {
+                StationName = StationName,
+                Status = DockingStatus.Cancelled
             });
         }
     }
@@ -32,9 +33,10 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public DockingDenyReason Reason;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.DockStatus.DockingRequestDenied.Trigger(new DockingRequestDeniedEventArgs {
+            model.Navigation.DockStatus.RequestStatusChanged.Trigger(new DockingRequestStatusChangedEventArgs {
                 StationName = StationName,
-                Reason = Reason
+                Status = DockingStatus.Denied,
+                DenyReason = Reason
             });
         }
     }
@@ -45,8 +47,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public int LandingPad;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.DockStatus.DockingRequestGranted.Trigger(new DockingRequestGrantedEventArgs {
+            model.Navigation.DockStatus.RequestStatusChanged.Trigger(new DockingRequestStatusChangedEventArgs {
                 StationName = StationName,
+                Status = DockingStatus.Granted,
                 LandingPad = LandingPad
             });
         }
@@ -57,8 +60,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string StationName;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.DockStatus.DockingRequested.Trigger(new DockingEventArgs {
-                StationName = StationName
+            model.Navigation.DockStatus.RequestStatusChanged.Trigger(new DockingRequestStatusChangedEventArgs {
+                StationName = StationName,
+                Status = DockingStatus.Pending
             });
         }
     }
@@ -68,8 +72,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string StationName;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
-            model.Navigation.DockStatus.DockingRequestTimeout.Trigger(new DockingEventArgs {
-                StationName = StationName
+            model.Navigation.DockStatus.RequestStatusChanged.Trigger(new DockingRequestStatusChangedEventArgs {
+                StationName = StationName,
+                Status = DockingStatus.Timeout
             });
         }
     }
