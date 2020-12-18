@@ -5,6 +5,7 @@ using Artemis.Plugins.Modules.EliteDangerous.Journal;
 namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class FSD {
         public bool IsCharging { get; internal set; }
+        [DataModelProperty(Description = "Note that this is also true during the uninteruptable jump timer (for both supercruise and hyperspace jumps)")]
         public bool IsJumping { get; internal set; }
         public bool IsCoolingDown { get; internal set; }
         public bool IsMassLocked { get; internal set; }

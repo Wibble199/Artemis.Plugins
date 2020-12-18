@@ -22,7 +22,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public float MaximumUnladenJumpRange { get; internal set; }
         public int RemainingJumpsInRoute { get; internal set; }
 
+        [DataModelProperty(Description = "Fires when entering orbital cruise around a planetary body.")]
         public DataModelEvent<ApproachBodyEventArgs> ApproachBody { get; } = new();
+        [DataModelProperty(Description = "Fires when leaving orbital cruise around a planetary body.")]
         public DataModelEvent<ApproachBodyEventArgs> LeaveBody { get; } = new();
 
         public DataModelEvent EnterSupercruise { get; } = new();
