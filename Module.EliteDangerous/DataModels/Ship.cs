@@ -1,42 +1,33 @@
-﻿using Artemis.Core.DataModelExpansions;
+﻿using Artemis.Core;
+using Artemis.Core.DataModelExpansions;
+using Artemis.Plugins.Modules.EliteDangerous.Journal;
 
-namespace Module.EliteDangerous.DataModels {
+namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Ship {
 
-        public bool ShieldsActive { get; internal set; }
+        public string Name { get; internal set; } = "Unknown";
+        public string Ident { get; internal set; } = "Unknown";
+        public ShipType Type { get; internal set; } = ShipType.Unknown;
+        public ShipSize Size { get; internal set; } = ShipSize.Unknown;
 
-        public bool InSupercruise { get; internal set; }
+        public bool IsInSupercruise { get; internal set; }
 
-        [DataModelProperty(Description = "Whether the ship is currently docked (at a station).")]
-        public bool Docked { get; internal set; }
+        public bool IsInDanger { get; internal set; }
+        public bool IsBeingInterdicted { get; internal set; }
 
-        [DataModelProperty(Description = "Whether the ship is currently landed (on a planet).")]
-        public bool Landed { get; internal set; }
+        [DataModelProperty(Description = "Event that occurs when the player successfully evades an interdiction or is interdicted by another ship. ")]
+        public DataModelEvent<InterdictionEventArgs> Interdiction { get; } = new();
 
-        public bool HardpointsDeployed { get; internal set; }
-        public bool LandingGearDeployed { get; internal set; }
-        public bool CargoScoopDeployed { get; internal set; }
+        public ShipSystems Systems { get; } = new();
+        public Fuel Fuel { get; } = new();
+        public FSD FSD { get; } = new();
+    }
 
-        public bool InDanger { get; internal set; }
-        public bool BeingInterdicted { get; internal set; }
 
-        [DataModelProperty(Description = "When the ship's heat level is above 100%.")]
-        public bool Overheating { get; internal set; }
-
-        public bool LightsOn { get; internal set; }
-        public bool SilentRunning { get; internal set; }
-        public bool FlightAssistActive { get; internal set; }
-
-        [DataModelProperty(Description = "The number of power pips diverted to systems. Value between 0 and 4. May be a half value.", MinValue = 0f, MaxValue = 4f)]
-        public float SystemPips { get; internal set; }
-
-        [DataModelProperty(Description = "The number of power pips diverted to engines. Value between 0 and 4. May be a half value.", MinValue = 0f, MaxValue = 4f)]
-        public float EnginePips { get; internal set; }
-
-        [DataModelProperty(Description = "The number of power pips diverted to weapons. Value between 0 and 4. May be a half value.", MinValue = 0f, MaxValue = 4f)]
-        public float WeaponPips { get; internal set; }
-
-        public Fuel Fuel { get; } = new Fuel();
-        public FSD FSD { get; } = new FSD();
+    public class InterdictionEventArgs : DataModelEventArgs {
+        public string Interdictor { get; init; }
+        public bool InterdictorIsPlayer { get; init; }
+        public bool Escaped { get; init; }
+        public bool Submitted { get; init; }
     }
 }

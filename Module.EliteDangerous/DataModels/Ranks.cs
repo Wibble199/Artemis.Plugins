@@ -1,6 +1,6 @@
-﻿using Module.EliteDangerous.Journal;
+﻿using Artemis.Plugins.Modules.EliteDangerous.Journal;
 
-namespace Module.EliteDangerous.DataModels {
+namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Ranks {
         public CombatRank Combat { get; internal set; }
         public TradeRank Trade { get; internal set; }

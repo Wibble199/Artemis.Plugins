@@ -1,13 +1,13 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
+using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+using Artemis.Plugins.Modules.EliteDangerous.Journal;
+using Artemis.Plugins.Modules.EliteDangerous.Status;
 using SkiaSharp;
-using Module.EliteDangerous.DataModels;
-using Module.EliteDangerous.Journal;
 using System;
 using System.IO;
-using Module.EliteDangerous.Status;
 
-namespace Module.EliteDangerous {
+namespace Artemis.Plugins.Modules.EliteDangerous {
 
     public class EliteDangerousModule : ProfileModule<EliteDangerousDataModel> {
 
@@ -19,10 +19,9 @@ namespace Module.EliteDangerous {
         private JournalParser journalParser;
         private StatusParser statusParser;
 
-        public override void EnablePlugin() {
+        public override void Enable() {
             DisplayName = "Elite: Dangerous";
-            DisplayIcon = "StarFourPoints";
-            DisplayIconPath = "Elite-Dangerous.png";
+            DisplayIcon = "Elite-Dangerous.svg";
             DefaultPriorityCategory = ModulePriorityCategory.Application;
             ActivationRequirements.Add(new ProcessActivationRequirement("EliteDangerous64"));
 
@@ -30,7 +29,7 @@ namespace Module.EliteDangerous {
             statusParser = new StatusParser(EliteDataDirectory);
         }
 
-        public override void DisablePlugin() {
+        public override void Disable() {
             journalParser.Dispose();
             statusParser.Dispose();
         }

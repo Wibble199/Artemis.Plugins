@@ -1,11 +1,10 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
-namespace Module.EliteDangerous.Journal {
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     /// <summary>
     /// Interface for parsed C# objects for journal events.
@@ -36,13 +35,13 @@ namespace Module.EliteDangerous.Journal {
     /// </summary>
     public class JournalEventConverter : JsonConverter {
 
-        private static readonly Dictionary<string, Type> knownEventTypes = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, Type> knownEventTypes = new(StringComparer.OrdinalIgnoreCase);
 
         static JournalEventConverter() {
-            // Populate the known event subtype dictionary with any type marked with JournalEventTypeAttribute
+            // Populate the known event subtype dictionary with any type that implements IJournalEvent
             foreach (var @type in typeof(JournalEvent).Assembly.GetTypes())
-                if (type.GetCustomAttribute<JournalEventTypeAttribute>() is JournalEventTypeAttribute attr)
-                    knownEventTypes.Add(attr.EventName, type);
+                if (!type.IsAbstract && type.IsClass && typeof(IJournalEvent).IsAssignableFrom(type) && type.Name.EndsWith("Event"))
+                    knownEventTypes.Add(type.Name[0..^5], type);
         }
 
         public override bool CanConvert(Type objectType) => objectType == typeof(IJournalEvent);
@@ -63,14 +62,5 @@ namespace Module.EliteDangerous.Journal {
         // We do not need to support writing events :)
         public override bool CanWrite => false;
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Type used to decorate IJournalEvents to allow them to be deserialized.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public class JournalEventTypeAttribute : Attribute {
-        public string EventName { get; }
-        public JournalEventTypeAttribute(string eventName) => EventName = eventName;
     }
 }

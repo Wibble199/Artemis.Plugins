@@ -1,8 +1,8 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using System;
 using System.IO;
 
-namespace Module.EliteDangerous {
+namespace Artemis.Plugins.Modules.EliteDangerous {
 
     /// <summary>
     /// Base class that provides access to a file and will read from it each update.
@@ -10,14 +10,11 @@ namespace Module.EliteDangerous {
     internal abstract class FileReaderBase : IDisposable {
 
         // Lock and flag prevents accidently reading from a closed stream
-        private readonly object streamLock = new object();
+        private readonly object streamLock = new();
         private FileStream fileStream;
         private StreamReader streamReader;
         private readonly bool tailMode;
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="tailMode">
         /// <list type="bullet">
         ///     <item>If <c>false</c>, will read entire file on update.
@@ -26,7 +23,7 @@ namespace Module.EliteDangerous {
         ///     <see cref="OnContentRead"/> may be called multiple times per update, each time with a line from the file.</item>
         ///     </list>
         /// </param>
-        protected FileReaderBase(bool tailMode) {
+        internal FileReaderBase(bool tailMode) {
             this.tailMode = tailMode;
         }
 
@@ -97,6 +94,6 @@ namespace Module.EliteDangerous {
         /// <param name="content">The content of the file/current line.</param>
         protected abstract void OnContentRead(EliteDangerousDataModel dataModel, string content);
 
-        public void Dispose() => CloseFile();
+        public virtual void Dispose() => CloseFile();
     }
 }

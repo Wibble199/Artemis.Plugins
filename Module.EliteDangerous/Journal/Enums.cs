@@ -1,7 +1,9 @@
 ﻿
 // http://edcodex.info/?m=doc
 
-namespace Module.EliteDangerous.Journal {
+using System.ComponentModel;
+
+namespace Artemis.Plugins.Modules.EliteDangerous.Journal {
 
     public enum StarClass {
         O, B, A, F, G, K, M, L, T, Y, // Main sequence
@@ -27,6 +29,89 @@ namespace Module.EliteDangerous.Journal {
     public enum JumpType {
         Supercruise,
         Hyperspace
+    }
+
+    public enum BodyType {
+        Null,
+        Star,
+        Planet,
+        PlanetaryRing,
+        StellarRing,
+        Station,
+        AsteroidCluster
+    }
+
+    public enum ShipType {
+        Adder,
+        Alliance_Challenger,
+        Alliance_Chieftain,
+        Alliance_Crusader,
+        Anaconda,
+        Asp_Explorer,
+        Asp_Scout,
+        Beluga_Liner,
+        Cobra_MkIII,
+        Cobra_MkIV,
+        Diamondback_Explorer,
+        Diamondback_Scout,
+        Dolphin,
+        Eagle,
+        F63_Condor,
+        Federal_Assault_Ship,
+        Federal_Corvette,
+        Federal_Dropship,
+        Federal_Gunship,
+        [Description("Fer-de-Lance")] Fer_de_Lance,
+        Hauler,
+        Imperial_Clipper,
+        Imperial_Courier,
+        Imperial_Cutter,
+        Imperial_Eagle,
+        Gu_97,
+        Keelback,
+        Krait_MkII,
+        Krait_Phantom,
+        Mamba,
+        Orca,
+        Panther_Clipper,
+        Python,
+        Scarab,
+        Sidewinder,
+        Taipan_Fighter,
+        [Description("Type-6 Transporter")] Type6_Transporter,
+        [Description("Type-7 Transporter")] Type7_Transporter,
+        [Description("Type-9 Heavy")] Type9_Heavy,
+        [Description("Type-10 Defender")] Type10_Defender,
+        Viper_MkIII,
+        Viper_MkIV,
+        Vulture,
+        Unknown
+    }
+
+    public enum ShipSize {
+        Small,
+        Medium,
+        Large,
+        Fighter,
+        Unknown
+    }
+
+    public enum DockingStatus {
+        Cancelled,
+        Granted,
+        Denied,
+        Pending,
+        Timeout
+    }
+
+    public enum DockingDenyReason {
+        NoSpace,
+        TooLarge,
+        Hostile,
+        Offences,
+        Distance,
+        ActiveFighter,
+        NoReason
     }
 
     public enum CombatRank {

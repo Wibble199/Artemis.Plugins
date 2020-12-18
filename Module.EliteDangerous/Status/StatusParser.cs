@@ -1,8 +1,8 @@
-﻿using Module.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace Module.EliteDangerous.Status {
+namespace Artemis.Plugins.Modules.EliteDangerous.Status {
 
     internal class StatusParser : FileReaderBase {
 
@@ -34,29 +34,35 @@ namespace Module.EliteDangerous.Status {
             dataModel.Player.InWing = Has(StatusFlags.InWing);
 
             // HUD
-            dataModel.HUD.ActivePanel = status.GuiFocus;
-            dataModel.HUD.AnalysisMode = Has(StatusFlags.AnalysisMode);
-            dataModel.HUD.NightVision = Has(StatusFlags.NightVision);
+            dataModel.HUD.FocusedPanel = status.GuiFocus;
+            dataModel.HUD.AnalysisModeActive = Has(StatusFlags.AnalysisMode);
+            dataModel.HUD.NightVisionActive = Has(StatusFlags.NightVision);
+
+            // Nav
+            dataModel.Navigation.DockStatus.IsDocked = Has(StatusFlags.Docked);
+            dataModel.Navigation.DockStatus.IsLanded = Has(StatusFlags.Landed);
+            dataModel.Navigation.Latitude = status.Latitude;
+            dataModel.Navigation.Longitude = status.Longitude;
+            dataModel.Navigation.Altitude = status.Altitude;
+            dataModel.Navigation.Heading = status.Heading;
 
             // Ship
-            dataModel.Ship.Docked = Has(StatusFlags.Docked);
-            dataModel.Ship.Landed = Has(StatusFlags.Landed);
-            dataModel.Ship.InSupercruise = Has(StatusFlags.Supercruise);
-            dataModel.Ship.LandingGearDeployed = Has(StatusFlags.LandingGearDeployed);
-            dataModel.Ship.CargoScoopDeployed = Has(StatusFlags.CargoScoopDeployed);
-            dataModel.Ship.HardpointsDeployed = Has(StatusFlags.HardpointsDeployed);
-            dataModel.Ship.ShieldsActive = Has(StatusFlags.ShieldsUp);
-            dataModel.Ship.FlightAssistActive = !Has(StatusFlags.FlightAssistOff);
-            dataModel.Ship.LightsOn = Has(StatusFlags.PilotingMainShip) && Has(StatusFlags.LightsOn);
-            dataModel.Ship.SilentRunning = Has(StatusFlags.SilentRunning);
-            dataModel.Ship.Overheating = Has(StatusFlags.Overheating);
-            dataModel.Ship.InDanger = Has(StatusFlags.InDanger);
-            dataModel.Ship.BeingInterdicted = Has(StatusFlags.BeingInterdicted);
+            dataModel.Ship.IsInSupercruise = Has(StatusFlags.Supercruise);
+            dataModel.Ship.Systems.LandingGearDeployed = Has(StatusFlags.LandingGearDeployed);
+            dataModel.Ship.Systems.CargoScoopDeployed = Has(StatusFlags.CargoScoopDeployed);
+            dataModel.Ship.Systems.HardpointsDeployed = Has(StatusFlags.HardpointsDeployed);
+            dataModel.Ship.Systems.ShieldsActive = Has(StatusFlags.ShieldsUp);
+            dataModel.Ship.Systems.FlightAssistActive = !Has(StatusFlags.FlightAssistOff);
+            dataModel.Ship.Systems.LightsActive = Has(StatusFlags.PilotingMainShip) && Has(StatusFlags.LightsOn);
+            dataModel.Ship.Systems.SilentRunningActive = Has(StatusFlags.SilentRunning);
+            dataModel.Ship.Systems.IsOverheating = Has(StatusFlags.Overheating);
+            dataModel.Ship.IsInDanger = Has(StatusFlags.InDanger);
+            dataModel.Ship.IsBeingInterdicted = Has(StatusFlags.BeingInterdicted);
 
             // Ship power
-            dataModel.Ship.SystemPips = status.Pips[0] / 2f;
-            dataModel.Ship.EnginePips = status.Pips[1] / 2f;
-            dataModel.Ship.WeaponPips = status.Pips[2] / 2f;
+            dataModel.Ship.Systems.SystemPips = status.Pips[0] / 2f;
+            dataModel.Ship.Systems.EnginePips = status.Pips[1] / 2f;
+            dataModel.Ship.Systems.WeaponPips = status.Pips[2] / 2f;
 
             // Ship FSD
             dataModel.Ship.FSD.IsCharging = Has(StatusFlags.FSDCharging);
@@ -67,15 +73,15 @@ namespace Module.EliteDangerous.Status {
             // Ship fuel
             dataModel.Ship.Fuel.FuelMain = status.Fuel.FuelMain;
             dataModel.Ship.Fuel.FuelReservoir = status.Fuel.FuelReservoir;
-            dataModel.Ship.Fuel.FuelLow = Has(StatusFlags.LowFuel);
-            dataModel.Ship.Fuel.FuelScoopActive = Has(StatusFlags.FuelScooping);
+            dataModel.Ship.Fuel.IsLow = Has(StatusFlags.LowFuel);
+            dataModel.Ship.Fuel.IsScooping = Has(StatusFlags.FuelScooping);
 
             // SRV
             dataModel.SRV.HandbrakeActive = Has(StatusFlags.SRVHandbrake);
             dataModel.SRV.TurretViewActive = Has(StatusFlags.SRVTurretView);
             dataModel.SRV.TurretRetracted = Has(StatusFlags.SRVTurretRetracted);
             dataModel.SRV.DriveAssistActive = Has(StatusFlags.SRVDriveAssist);
-            dataModel.SRV.LightsOn = Has(StatusFlags.PilotingSRV) && Has(StatusFlags.LightsOn);
+            dataModel.SRV.LightsActive = Has(StatusFlags.PilotingSRV) && Has(StatusFlags.LightsOn);
             dataModel.SRV.HighBeamActive = Has(StatusFlags.SRVHighBeam);
         }
     }

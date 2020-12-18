@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.TruckSimulator", "Module.TruckSimulator\Module.TruckSimulator.csproj", "{2FD94B01-AFE7-4D39-BABA-504D3F7F6023}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.EliteDangerous", "Module.EliteDangerous\Module.EliteDangerous.csproj", "{3A3C473A-04A6-49FE-905E-C1E230E237F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.EliteDangerous", "Module.EliteDangerous\Module.EliteDangerous.csproj", "{3A3C473A-04A6-49FE-905E-C1E230E237F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

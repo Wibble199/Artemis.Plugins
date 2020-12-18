@@ -1,4 +1,4 @@
-﻿namespace Module.EliteDangerous.Status {
+﻿namespace Artemis.Plugins.Modules.EliteDangerous.Status {
     public sealed class StatusJson {
         public StatusFlags Flags;
         public int[] Pips = new[] { 0, 0, 0 };
@@ -7,10 +7,10 @@
         public Fuel Fuel = new Fuel();
         public float Cargo;
         public LegalState LegalState;
-        public float Latitude;
-        public float Longitude;
-        public float Altitude;
-        public float Heading;
+        public double? Latitude;
+        public double? Longitude;
+        public double? Altitude;
+        public double? Heading;
     }
 
     public sealed class Fuel {

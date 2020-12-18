@@ -1,7 +1,8 @@
 {
   "Guid": "49dff3a6-3d2a-444a-8346-582b2d61b776",
   "Name": "Elite: Dangerous Module",
+  "Icon": "Elite-Dangerous.svg",
   "Description": "Plugin that provides a data model accessing local Elite: Dangerous journal data.",
   "Version": "1.0.0.0",
-  "Main": "Module.EliteDangerous.dll"
+  "Main": "Artemis.Plugins.Modules.EliteDangerous.dll"
 }
