@@ -5,10 +5,10 @@ using Artemis.Plugins.Modules.EliteDangerous.Journal;
 namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Ship {
 
-        public string Name { get; internal set; }
-        public string Ident { get; internal set; }
-        public ShipType Type { get; internal set; }
-        public ShipSize Size { get; internal set; }
+        public string Name { get; internal set; } = "Unknown";
+        public string Ident { get; internal set; } = "Unknown";
+        public ShipType Type { get; internal set; } = ShipType.Unknown;
+        public ShipSize Size { get; internal set; } = ShipSize.Unknown;
 
         public bool IsInSupercruise { get; internal set; }
 

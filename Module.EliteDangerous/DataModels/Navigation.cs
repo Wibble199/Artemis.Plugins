@@ -1,14 +1,14 @@
-﻿using Artemis.Core;
+using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
 using Artemis.Plugins.Modules.EliteDangerous.Journal;
 
 namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Navigation {
 
-        public string CurrentSystem { get; private set; }
-        public string CurrentBody { get; private set; }
+        public string CurrentSystem { get; private set; } = "Unknown";
+        public string CurrentBody { get; private set; } = "Unknown";
         public BodyType? CurrentBodyType { get; private set; }
-        public string CurrentStation { get; private set; }
+        public string CurrentStation { get; private set; } = "Unknown";
 
         public double? Latitude { get; internal set; }
         public double? Longitude { get; internal set; }
