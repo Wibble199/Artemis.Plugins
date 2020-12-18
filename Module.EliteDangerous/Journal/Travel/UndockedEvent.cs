@@ -6,6 +6,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
         public string StationName;
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
+            model.Navigation.CurrentStation = null;
             model.Navigation.DockStatus.Undocked.Trigger(new DockingEventArgs { StationName = StationName });
         }
     }

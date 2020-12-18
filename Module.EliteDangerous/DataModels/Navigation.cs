@@ -1,14 +1,18 @@
-using Artemis.Core;
+﻿using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
 using Artemis.Plugins.Modules.EliteDangerous.Journal;
 
 namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
     public class Navigation {
 
+        [DataModelProperty(Description = "The name of the current system.")]
         public string CurrentSystem { get; private set; } = "Unknown";
+        [DataModelProperty(Description = "When not in supercruise, the name of the body the player is at.")]
         public string CurrentBody { get; private set; } = "Unknown";
+        [DataModelProperty(Description = "When not in supercruise, the type of body the player is at.")]
         public BodyType? CurrentBodyType { get; private set; }
-        public string CurrentStation { get; private set; } = "Unknown";
+        [DataModelProperty(Description = "When docked at a station, the name of the station.")]
+        public string CurrentStation { get; internal set; } = "Unknown";
 
         public double? Latitude { get; internal set; }
         public double? Longitude { get; internal set; }
@@ -18,8 +22,8 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
         public float MaximumUnladenJumpRange { get; internal set; }
         public int RemainingJumpsInRoute { get; internal set; }
 
-        public DataModelEvent ApproachBody { get; } = new();
-        public DataModelEvent LeaveBody { get; } = new();
+        public DataModelEvent<ApproachBodyEventArgs> ApproachBody { get; } = new();
+        public DataModelEvent<ApproachBodyEventArgs> LeaveBody { get; } = new();
 
         public DataModelEvent EnterSupercruise { get; } = new();
         public DataModelEvent ExitSupercruise { get; } = new();
@@ -35,5 +39,9 @@ namespace Artemis.Plugins.Modules.EliteDangerous.DataModels {
             CurrentBodyType = bodyType;
             CurrentStation = station;
         }
+    }
+
+    public class ApproachBodyEventArgs : DataModelEventArgs {
+        public string BodyName { get; init; }
     }
 }

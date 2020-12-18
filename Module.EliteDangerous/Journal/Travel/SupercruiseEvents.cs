@@ -7,6 +7,7 @@ namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel {
 
         public void ApplyUpdate(EliteDangerousDataModel model) {
             // Does not need to update InSupercruise, this is done via Status.json
+            model.Navigation.UpdateLocation(StarSystem);
             model.Navigation.EnterSupercruise.Trigger();
         }
     }
