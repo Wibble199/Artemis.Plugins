@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Artemis.Plugins.Modules.EliteDangerous {
+namespace Artemis.Plugins.Modules.EliteDangerous.Utils {
 
     /// <summary>
     /// Base class that provides access to a file and will read from it each update.
