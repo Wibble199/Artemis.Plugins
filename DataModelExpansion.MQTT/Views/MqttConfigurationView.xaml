@@ -6,12 +6,14 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:art="clr-namespace:Artemis.UI.Shared;assembly=Artemis.UI.Shared"
              xmlns:vm="clr-namespace:DataModelExpansion.Mqtt.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="600">
     <UserControl.Resources>
         <system:Boolean x:Key="True">True</system:Boolean>
         <system:Boolean x:Key="False">False</system:Boolean>
+        <art:TypeToStringConverter x:Key="TypeToStringConverter" />
     </UserControl.Resources>
 
     <materialDesign:DialogHost DialogTheme="Inherit" Focusable="True" Identifier="MqttConfigHost" IsTabStop="False">
@@ -182,14 +184,15 @@
                                     </TextBlock>
 
                                     <!-- Text for value-type nodes -->
+                                    <TextBlock
+                                        DockPanel.Dock="Right"
+                                        Text="{Binding Topic, Mode=OneWay}"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     <TextBlock VerticalAlignment="Center" Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Run FontWeight="Bold" Text="[" /><Run FontWeight="Bold" Text="{Binding Type, Mode=OneWay, Converter={StaticResource TypeToStringConverter}}" /><Run FontWeight="Bold" Text="]" />
                                         <Run Text="{Binding Label, Mode=OneWay}" />
-                                        <Run Text="(" />
-                                        <Run Text="{Binding Topic, Mode=OneWay}" />
-                                        <Run Text=") [" />
-                                        <Run Text="{Binding Type, Mode=OneWay}" />
-                                        <Run Text="]" />
-                                    </TextBlock>
+                                        </TextBlock>
                                 </DockPanel>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
