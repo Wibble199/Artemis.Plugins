@@ -3,238 +3,235 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:vm="clr-namespace:DataModelExpansion.Mqtt.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="600">
+    <UserControl.Resources>
+        <system:Boolean x:Key="True">True</system:Boolean>
+        <system:Boolean x:Key="False">False</system:Boolean>
+    </UserControl.Resources>
 
-    <StackPanel Width="640" Margin="16" HorizontalAlignment="Center">
-        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="0 15">Server</TextBlock>
-        <materialDesign:Card VerticalAlignment="Stretch">
-            <StackPanel Margin="16,8">
-                <Grid Margin="0,8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+    <materialDesign:DialogHost DialogTheme="Inherit" Focusable="True" Identifier="MqttConfigHost" IsTabStop="False">
+        <ScrollViewer>
+        <StackPanel Width="640" Margin="16" HorizontalAlignment="Center">
+            <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="0 15">Server</TextBlock>
+            <materialDesign:Card VerticalAlignment="Stretch">
+                <StackPanel Margin="16,8">
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MaterialDesignTextBlock}"
-                        Text="URL"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Grid.Column="1"
-                        Style="{StaticResource MaterialDesignTextBox}"
-                        Text="{Binding ServerUrlSetting.Value}"
-                        VerticalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource MaterialDesignTextBlock}"
+                            Text="URL"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource MaterialDesignTextBox}"
+                            Text="{Binding ServerUrlSetting.Value}"
+                            VerticalAlignment="Center" />
 
-                    <TextBlock
-                        Grid.Column="3"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MaterialDesignTextBlock}"
-                        Text="Port"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Grid.Column="4"
-                        Style="{StaticResource MaterialDesignTextBox}"
-                        Text="{Binding ServerPortSetting.Value}"
-                        VerticalAlignment="Center" />
-                </Grid>
+                        <TextBlock
+                            Grid.Column="3"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource MaterialDesignTextBlock}"
+                            Text="Port"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Grid.Column="4"
+                            Style="{StaticResource MaterialDesignTextBox}"
+                            Text="{Binding ServerPortSetting.Value}"
+                            VerticalAlignment="Center" />
+                    </Grid>
 
-                <Grid Margin="0,8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MaterialDesignTextBlock}"
-                        Text="Client ID"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Grid.Column="1"
-                        Style="{StaticResource MaterialDesignTextBox}"
-                        Text="{Binding ClientIdSetting.Value}"
-                        VerticalAlignment="Center" />
-                </Grid>
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
 
-                <Grid Margin="0,8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource MaterialDesignTextBlock}"
+                            Text="Client ID"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource MaterialDesignTextBox}"
+                            Text="{Binding ClientIdSetting.Value}"
+                            VerticalAlignment="Center" />
+                    </Grid>
 
-                    <TextBlock
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MaterialDesignTextBlock}"
-                        Text="Username"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Grid.Column="1"
-                        Style="{StaticResource MaterialDesignTextBox}"
-                        Text="{Binding UsernameSetting.Value}"
-                        VerticalAlignment="Center" />
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        Grid.Column="3"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MaterialDesignTextBlock}"
-                        Text="Password"
-                        VerticalAlignment="Center" />
-                    <TextBox
-                        Grid.Column="4"
-                        Style="{StaticResource MaterialDesignTextBox}"
-                        Text="{Binding PasswordSetting.Value}"
-                        VerticalAlignment="Center" />
-                </Grid>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource MaterialDesignTextBlock}"
+                            Text="Username"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Grid.Column="1"
+                            Style="{StaticResource MaterialDesignTextBox}"
+                            Text="{Binding UsernameSetting.Value}"
+                            VerticalAlignment="Center" />
 
-                <Grid Margin="0,8">
-                    <TextBlock
-                        Grid.Column="3"
-                        Margin="0,0,12,0"
-                        Style="{StaticResource MaterialDesignTextBlock}"
-                        Text="SSL/TLS settings coming soon!"
-                        VerticalAlignment="Center" />
-                </Grid>
-            </StackPanel>
-        </materialDesign:Card>
+                        <TextBlock
+                            Grid.Column="3"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource MaterialDesignTextBlock}"
+                            Text="Password"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Grid.Column="4"
+                            Style="{StaticResource MaterialDesignTextBox}"
+                            Text="{Binding PasswordSetting.Value}"
+                            VerticalAlignment="Center" />
+                    </Grid>
 
-        <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="0 15">Data Model</TextBlock>
-        <materialDesign:Card>
-            <StackPanel Margin="16,8">
-                <TreeView
-                    ItemsSource="{Binding DynamicDataModelStructureRoot.Children}"
-                    Margin="0,8"
-                    HorizontalContentAlignment="Stretch">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate
-                            DataType="{x:Type vm:MqttDataModelStructureConfigurationViewModel}"
-                            ItemsSource="{Binding Children}">
-                            <Grid>
-                                <!-- Template for items with children -->
-                                <Grid Visibility="{Binding IsGroup, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="32" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        materialDesign:HintAssist.Hint="Label"
-                                        Style="{StaticResource MaterialDesignTextBox}"
-                                        Text="{Binding Label}"
-                                        VerticalAlignment="Stretch" />
-
-                                    <StackPanel
-                                        Grid.Column="2"
-                                        HorizontalAlignment="Right"
-                                        Orientation="Horizontal"
-                                        s:View.ActionTarget="{Binding .}">
-                                        <Button
-                                            Command="{s:Action AddGroup}"
-                                            Height="30"
-                                            materialDesign:RippleAssist.IsCentered="True"
-                                            Padding="2 0 2 0"
-                                            Style="{StaticResource MaterialDesignIconForegroundButton}"
-                                            ToolTip="Add new group to this group"
-                                            Width="30">
-                                            <materialDesign:PackIcon Kind="CreateNewFolder" Width="15" />
-                                        </Button>
-                                        <Button
-                                            Command="{s:Action AddValue}"
-                                            Height="30"
-                                            materialDesign:RippleAssist.IsCentered="True"
-                                            Padding="2 0 2 0"
-                                            Style="{StaticResource MaterialDesignIconForegroundButton}"
-                                            ToolTip="Add new value to this group"
-                                            Width="30">
-                                            <materialDesign:PackIcon Kind="LayersPlus" Width="15" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            
-                                <!-- Template for items that are values -->
-                                <Grid Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="32" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="32" />
-                                        <ColumnDefinition Width="1*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBox
-                                        Grid.Column="0"
-                                        materialDesign:HintAssist.Hint="Label"
-                                        Style="{StaticResource MaterialDesignTextBox}"
-                                        Text="{Binding Label}"
-                                        VerticalAlignment="Stretch" />
-
-                                    <TextBox
-                                        Grid.Column="2"
-                                        materialDesign:HintAssist.Hint="Topic"
-                                        Style="{StaticResource MaterialDesignTextBox}"
-                                        Text="{Binding Topic}"
-                                        VerticalAlignment="Stretch" />
-
-                                    <ComboBox
-                                        Grid.Column="4"
-                                        ItemsSource="{Binding DataContext.SupportedValueTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                        SelectedItem="{Binding Type}"
-                                        Style="{StaticResource MaterialDesignComboBox}"
-                                        VerticalAlignment="Stretch" />
-                                </Grid>
-                            </Grid>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-
-                <StackPanel
-                    Grid.Column="2"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal"
-                    s:View.ActionTarget="{Binding DynamicDataModelStructureRoot}">
-                    <Button
-                        Command="{s:Action AddGroup}"
-                        Height="30"
-                        materialDesign:RippleAssist.IsCentered="True"
-                        Padding="2 0 2 0"
-                        Style="{StaticResource MaterialDesignIconForegroundButton}"
-                        ToolTip="Add new group to root"
-                        Width="30">
-                        <materialDesign:PackIcon Kind="CreateNewFolder" Width="15" />
-                    </Button>
-                    <Button
-                        Command="{s:Action AddValue}"
-                        Height="30"
-                        materialDesign:RippleAssist.IsCentered="True"
-                        Padding="2 0 2 0"
-                        Style="{StaticResource MaterialDesignIconForegroundButton}"
-                        ToolTip="Add new value to root"
-                        Width="30">
-                        <materialDesign:PackIcon Kind="LayersPlus" Width="15" />
-                    </Button>
+                    <Grid Margin="0,8">
+                        <TextBlock
+                            Grid.Column="3"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource MaterialDesignTextBlock}"
+                            Text="SSL/TLS settings coming soon!"
+                            VerticalAlignment="Center" />
+                    </Grid>
                 </StackPanel>
+            </materialDesign:Card>
 
-                <Button
-                    Command="{s:Action Save}"
-                    Content="Save"
-                    HorizontalAlignment="Right"
-                    Margin="0,8" />
-            </StackPanel>
-        </materialDesign:Card>
-    </StackPanel>
+            <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Margin="0 15">Data Model</TextBlock>
+            <materialDesign:Card>
+                <StackPanel Margin="16,8">
+                    <TreeView
+                        ItemsSource="{Binding DynamicDataModelStructureRoot.Children}"
+                        Margin="0,8"
+                        HorizontalContentAlignment="Stretch">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate
+                                DataType="{x:Type vm:MqttDataModelStructureConfigurationViewModel}"
+                                ItemsSource="{Binding Children}">
+                                <DockPanel LastChildFill="True" s:View.ActionTarget="{Binding .}">
+                                    <!-- Edit/delete buttons -->
+                                    <Button
+                                        Command="{s:Action DeleteNode}"
+                                        DockPanel.Dock="Right"
+                                        Height="30"
+                                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                        Width="30">
+                                        <materialDesign:PackIcon Kind="Delete" Width="15" />
+                                    </Button>
+                                    <Button
+                                        Command="{s:Action EditNode}"
+                                        DockPanel.Dock="Right"
+                                        Height="30"
+                                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                        Width="30">
+                                        <materialDesign:PackIcon Kind="Pencil" Width="15" />
+                                    </Button>
+
+                                    <!-- Buttons for group type nodes -->
+                                    <Button
+                                        Command="{s:Action AddChildNode}"
+                                        CommandParameter="{StaticResource True}"
+                                        DockPanel.Dock="Right"
+                                        Height="30"
+                                        materialDesign:RippleAssist.IsCentered="True"
+                                        Padding="2 0 2 0"
+                                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                        ToolTip="Add new group to this group"
+                                        Visibility="{Binding IsGroup, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Width="30">
+                                        <materialDesign:PackIcon Kind="CreateNewFolder" Width="15" />
+                                    </Button>
+                                    <Button
+                                        Command="{s:Action AddChildNode}"
+                                        CommandParameter="{StaticResource False}"
+                                        DockPanel.Dock="Right"
+                                        Height="30"
+                                        materialDesign:RippleAssist.IsCentered="True"
+                                        Padding="2 0 2 0"
+                                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                        ToolTip="Add new value to this group"
+                                        Visibility="{Binding IsGroup, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Width="30">
+                                        <materialDesign:PackIcon Kind="Plus" Width="15" />
+                                    </Button>
+
+                                    <!-- Text for group-type nodes -->
+                                    <TextBlock VerticalAlignment="Center" Visibility="{Binding IsGroup, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Run Text="{Binding Label, Mode=OneWay}" />
+                                    </TextBlock>
+
+                                    <!-- Text for value-type nodes -->
+                                    <TextBlock VerticalAlignment="Center" Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Run Text="{Binding Label, Mode=OneWay}" />
+                                        <Run Text="(" />
+                                        <Run Text="{Binding Topic, Mode=OneWay}" />
+                                        <Run Text=") [" />
+                                        <Run Text="{Binding Type, Mode=OneWay}" />
+                                        <Run Text="]" />
+                                    </TextBlock>
+                                </DockPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+
+                    <StackPanel
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        s:View.ActionTarget="{Binding DynamicDataModelStructureRoot}">
+                        <Button
+                            Command="{s:Action AddChildNode}"
+                            CommandParameter="{StaticResource True}"
+                            Height="30"
+                            materialDesign:RippleAssist.IsCentered="True"
+                            Padding="2 0 2 0"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                            ToolTip="Add new group to root"
+                            Width="30">
+                            <materialDesign:PackIcon Kind="CreateNewFolder" Width="15" />
+                        </Button>
+                        <Button
+                            Command="{s:Action AddChildNode}"
+                            CommandParameter="{StaticResource False}"
+                            Height="30"
+                            materialDesign:RippleAssist.IsCentered="True"
+                            Padding="2 0 2 0"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                            ToolTip="Add new value to root"
+                            Width="30">
+                            <materialDesign:PackIcon Kind="Plus" Width="15" />
+                        </Button>
+                    </StackPanel>
+
+                    <Button
+                        Command="{s:Action Save}"
+                        Content="Save &amp; Apply"
+                        HorizontalAlignment="Right"
+                        Margin="0,8" />
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+        </ScrollViewer>
+    </materialDesign:DialogHost>
 </UserControl>

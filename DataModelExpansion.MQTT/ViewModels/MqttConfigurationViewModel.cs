@@ -1,8 +1,7 @@
 ﻿using Artemis.Core;
 using Artemis.UI.Shared;
+using Artemis.UI.Shared.Services;
 using DataModelExpansion.Mqtt.Settings;
-using System;
-using System.Collections.Generic;
 
 namespace DataModelExpansion.Mqtt.ViewModels {
 
@@ -10,9 +9,9 @@ namespace DataModelExpansion.Mqtt.ViewModels {
 
         private readonly PluginSetting<MqttDynamicDataModelStructureNode> dynamicDataModelStructureSetting;
 
-        public MqttConfigurationViewModel(Plugin plugin, PluginSettings settings) : base(plugin) {
+        public MqttConfigurationViewModel(Plugin plugin, PluginSettings settings, IDialogService dialogService) : base(plugin) {
             (ServerUrlSetting, ServerPortSetting, ClientIdSetting, UsernameSetting, PasswordSetting, dynamicDataModelStructureSetting) = settings.GetMqqtSettings();
-            DynamicDataModelStructureRoot = new MqttDataModelStructureConfigurationViewModel(dynamicDataModelStructureSetting.Value);
+            DynamicDataModelStructureRoot = new MqttDataModelStructureConfigurationViewModel(dialogService, null, dynamicDataModelStructureSetting.Value);
         }
 
         public PluginSetting<string> ServerUrlSetting { get; }
@@ -22,13 +21,6 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         public PluginSetting<string> PasswordSetting { get; }
 
         public MqttDataModelStructureConfigurationViewModel DynamicDataModelStructureRoot { get; }
-
-        public IEnumerable<Type> SupportedValueTypes { get; } = new[] {
-            typeof(string),
-            typeof(bool),
-            typeof(int),
-            typeof(double)
-        };
 
         protected override void OnInitialActivate() {
             base.OnInitialActivate();

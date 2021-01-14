@@ -33,8 +33,8 @@ namespace DataModelExpansion.Mqtt.Settings {
         /// Returns a list of all topics that are being listened to by this node and its child nodes.
         /// </summary>
         public IEnumerable<string> GetTopics() {
-            return Topic != null
-                ? new[] { Topic }
+            return Children == null
+                ? string.IsNullOrWhiteSpace(Topic) ? Array.Empty<string>() : new[] { Topic }
                 : Children.SelectMany(c => c.GetTopics()).Distinct();
         }
     }
