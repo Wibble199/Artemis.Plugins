@@ -1,8 +1,8 @@
 {
   "Guid": "26869065-4728-469e-b7d5-38e90d6dca40",
-  "Name": "1-MQTT data model expansion",
+  "Name": "MQTT data model expansion",
   "Icon":  "AccessPoint",
   "Description": "Provides a customisable data model based on data received by subscribing to an MQTT broker.",
-  "Version": "1.0.0.0",
+  "Version": "0.0.1.0",
   "Main": "DataModelExpansion.MQTT.dll"
 }
