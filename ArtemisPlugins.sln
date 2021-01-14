@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.TruckSimulator", "Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.EliteDangerous", "Module.EliteDangerous\Module.EliteDangerous.csproj", "{3A3C473A-04A6-49FE-905E-C1E230E237F2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModelExpansion.Mqtt", "DataModelExpansion.MQTT\DataModelExpansion.Mqtt.csproj", "{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{3A3C473A-04A6-49FE-905E-C1E230E237F2}.Release|Any CPU.ActiveCfg = Release|x64
 		{3A3C473A-04A6-49FE-905E-C1E230E237F2}.Release|x64.ActiveCfg = Release|x64
 		{3A3C473A-04A6-49FE-905E-C1E230E237F2}.Release|x64.Build.0 = Release|x64
+		{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}.Debug|x64.ActiveCfg = Debug|x64
+		{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}.Debug|x64.Build.0 = Debug|x64
+		{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}.Release|Any CPU.ActiveCfg = Release|x64
+		{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}.Release|x64.ActiveCfg = Release|x64
+		{916CCD63-BBE6-4EFD-95B5-2FD46CE0715D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
