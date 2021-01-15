@@ -1,7 +1,7 @@
 ﻿using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
 using DataModelExpansion.Mqtt.DataModels;
-using DataModelExpansion.Mqtt.Settings;
+using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace DataModelExpansion.Mqtt {
 
-    public class MqttDataModelExpansion : DataModelExpansion<MqttDataModel> {
+    public class MqttDataModelExpansion : DataModelExpansion<RootDataModel> {
 
         private IManagedMqttClient client;
         private readonly PluginSetting<string> serverUrlSetting;
@@ -21,7 +21,7 @@ namespace DataModelExpansion.Mqtt {
         private readonly PluginSetting<string> clientIdSetting;
         private readonly PluginSetting<string> usernameSetting;
         private readonly PluginSetting<string> passwordSetting;
-        private readonly PluginSetting<MqttDynamicDataModelStructureNode> dynamicDataModelStructure;
+        private readonly PluginSetting<StructureDefinitionNode> dynamicDataModelStructure;
 
         public MqttDataModelExpansion(PluginSettings settings) {
             (serverUrlSetting, serverPortSetting, clientIdSetting, usernameSetting, passwordSetting, dynamicDataModelStructure) = settings.GetMqqtSettings();

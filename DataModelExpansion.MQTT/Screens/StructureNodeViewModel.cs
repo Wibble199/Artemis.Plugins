@@ -1,20 +1,20 @@
 ﻿using Artemis.UI.Shared.Services;
-using DataModelExpansion.Mqtt.Settings;
+using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataModelExpansion.Mqtt.ViewModels {
+namespace DataModelExpansion.Mqtt.Screens {
 
     /// <summary>
-    /// ViewModel for a <see cref="MqttDynamicDataModelStructureNode"/>.
+    /// ViewModel representing a <see cref="DynamicStructureNode"/> model.
     /// </summary>
-    public class MqttDataModelStructureConfigurationViewModel : Screen {
+    public class StructureNodeViewModel : PropertyChangedBase {
 
         private readonly IDialogService dialogService;
-        private readonly MqttDataModelStructureConfigurationViewModel parent;
+        private readonly StructureNodeViewModel parent;
 
         private string label;
         private string topic;
@@ -22,24 +22,24 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         private bool generateEvent;
 
         /// <summary>
-        /// Creates a new, blank ViewModel that represents a non-materialized <see cref="MqttDynamicDataModelStructureNode"/>.
+        /// Creates a new, blank ViewModel that represents a non-materialized <see cref="DynamicStructureNode"/>.
         /// </summary>
-        private MqttDataModelStructureConfigurationViewModel(IDialogService dialogService, MqttDataModelStructureConfigurationViewModel parent) {
+        private StructureNodeViewModel(IDialogService dialogService, StructureNodeViewModel parent) {
             this.dialogService = dialogService;
             this.parent = parent;
         }
 
         /// <summary>
-        /// Creates a new ViewModel that represents the given <see cref="MqttDynamicDataModelStructureNode"/>.
+        /// Creates a new ViewModel that represents the given <see cref="DynamicStructureNode"/>.
         /// </summary>
-        public MqttDataModelStructureConfigurationViewModel(IDialogService dialogService, MqttDataModelStructureConfigurationViewModel parent, MqttDynamicDataModelStructureNode model) : this(dialogService, parent) {
+        public StructureNodeViewModel(IDialogService dialogService, StructureNodeViewModel parent, StructureDefinitionNode model) : this(dialogService, parent) {
             label = model.Label;
             topic = model.Topic;
             type = model.Type;
             generateEvent = model.GenerateEvent;
             if (model.Children != null)
-                Children = new BindableCollection<MqttDataModelStructureConfigurationViewModel>(
-                    model.Children.Select(c => new MqttDataModelStructureConfigurationViewModel(dialogService, this, c))
+                Children = new BindableCollection<StructureNodeViewModel>(
+                    model.Children.Select(c => new StructureNodeViewModel(dialogService, this, c))
                 );
         }
 
@@ -64,7 +64,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             set => SetAndNotify(ref generateEvent, value);
         }
 
-        public BindableCollection<MqttDataModelStructureConfigurationViewModel> Children { get; init; }
+        public BindableCollection<StructureNodeViewModel> Children { get; init; }
 
         public bool IsGroup => Children != null;
         public bool IsValue => Children == null;
@@ -75,8 +75,8 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         /// Triggers a dialog to edit this ViewModel, and stores changes on confirm.
         /// </summary>
         public async Task EditNode() {
-            var result = await dialogService.ShowDialogAt<MqttNodeConfigurationViewModel>("MqttConfigHost", new() { ["target"] = this });
-            if (result is MqttNodeConfigurationViewModel.DialogResult r) {
+            var result = await dialogService.ShowDialogAt<StructureNodeConfigurationDialogViewModel>("MqttConfigHost", new() { ["target"] = this });
+            if (result is StructureNodeConfigurationDialogViewModel.DialogResult r) {
                 Label = r.Label;
                 Topic = r.Topic;
                 Type = r.Type;
@@ -114,28 +114,28 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             if (IsValue)
                 throw new InvalidOperationException("Cannot add a child item to an item that does not support children.");
 
-            var result = await dialogService.ShowDialogAt<MqttNodeConfigurationViewModel>("MqttConfigHost", new() { ["isGroup"] = addGroup });
-            if (result is MqttNodeConfigurationViewModel.DialogResult r)
-                Children.Add(new MqttDataModelStructureConfigurationViewModel(dialogService, this) {
+            var result = await dialogService.ShowDialogAt<StructureNodeConfigurationDialogViewModel>("MqttConfigHost", new() { ["isGroup"] = addGroup });
+            if (result is StructureNodeConfigurationDialogViewModel.DialogResult r)
+                Children.Add(new StructureNodeViewModel(dialogService, this) {
                     Label = r.Label,
                     Topic = addGroup ? null : r.Topic,
                     Type = addGroup ? null : r.Type,
                     GenerateEvent = !addGroup && generateEvent,
-                    Children = addGroup ? new BindableCollection<MqttDataModelStructureConfigurationViewModel>() : null
+                    Children = addGroup ? new BindableCollection<StructureNodeViewModel>() : null
                 });
         }
         #endregion
 
         /// <summary>
-        /// Converts this ViewModel into a <see cref="MqttDynamicDataModelStructureNode"/> model that can be saved and used
-        /// by the <see cref="MqttDynamicDataModelClassBuilder"/>.
+        /// Converts this ViewModel into a <see cref="DynamicStructureNode"/> model that can be saved, and used
+        /// by the <see cref="DynamicClassBuilder"/>.
         /// </summary>
-        public MqttDynamicDataModelStructureNode ViewModelToModel() => new MqttDynamicDataModelStructureNode {
+        public StructureDefinitionNode ViewModelToModel() => new StructureDefinitionNode {
             Label = label,
             Topic = topic,
             Type = type,
             GenerateEvent = generateEvent,
-            Children = IsGroup ? new List<MqttDynamicDataModelStructureNode>(Children.Select(c => c.ViewModelToModel())) : null
+            Children = IsGroup ? new List<StructureDefinitionNode>(Children.Select(c => c.ViewModelToModel())) : null
         };
     }
 }

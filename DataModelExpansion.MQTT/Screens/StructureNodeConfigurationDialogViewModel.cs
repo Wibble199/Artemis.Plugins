@@ -5,9 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DataModelExpansion.Mqtt.ViewModels {
+namespace DataModelExpansion.Mqtt.Screens {
 
-    public class MqttNodeConfigurationViewModel : DialogViewModelBase {
+    /// <summary>
+    /// ViewModel for single node edit dialog.
+    /// </summary>
+    public class StructureNodeConfigurationDialogViewModel : DialogViewModelBase {
 
         private static readonly Type[] supportedTypes = new[] { typeof(string), typeof(bool), typeof(int), typeof(double) };
 
@@ -16,14 +19,14 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         private Type type;
         private bool generateEvent;
 
-        public MqttNodeConfigurationViewModel(IModelValidator<MqttNodeConfigurationViewModel> validator, bool isGroup) : base(validator) {
+        public StructureNodeConfigurationDialogViewModel(IModelValidator<StructureNodeConfigurationDialogViewModel> validator, bool isGroup) : base(validator) {
             label = "";
             topic = isGroup ? null : "";
             type = isGroup ? null : supportedTypes[0];
             IsGroup = isGroup;
         }
 
-        public MqttNodeConfigurationViewModel(IModelValidator<MqttNodeConfigurationViewModel> validator, MqttDataModelStructureConfigurationViewModel target) : base(validator) {
+        public StructureNodeConfigurationDialogViewModel(IModelValidator<StructureNodeConfigurationDialogViewModel> validator, StructureNodeViewModel target) : base(validator) {
             label = target.Label;
             topic = target.Topic;
             type = target.Type;
@@ -70,7 +73,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
     }
 
 
-    public class MqttNodeConfigurationViewModelValidator : AbstractValidator<MqttNodeConfigurationViewModel> {
+    public class MqttNodeConfigurationViewModelValidator : AbstractValidator<StructureNodeConfigurationDialogViewModel> {
         public MqttNodeConfigurationViewModelValidator() {
             RuleFor(m => m.Label).NotEmpty().WithMessage("Label cannot be blank.");
 

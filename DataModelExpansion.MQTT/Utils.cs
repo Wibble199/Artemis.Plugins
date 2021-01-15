@@ -1,5 +1,5 @@
 ﻿using Artemis.Core;
-using DataModelExpansion.Mqtt.Settings;
+using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using System.Collections.Generic;
 
 namespace DataModelExpansion.Mqtt {
@@ -10,16 +10,16 @@ namespace DataModelExpansion.Mqtt {
             PluginSetting<string> clientIdSetting,
             PluginSetting<string> usernameSetting,
             PluginSetting<string> passwordSetting,
-            PluginSetting<MqttDynamicDataModelStructureNode> dynamicDataModelStructure
+            PluginSetting<StructureDefinitionNode> dynamicDataModelStructure
         ) GetMqqtSettings(this PluginSettings settings) => (
             settings.GetSetting("ServerUrl", "localhost"),
             settings.GetSetting("ServerPort", 1883),
             settings.GetSetting("ClientId", "Artemis"),
             settings.GetSetting("Username", ""),
             settings.GetSetting("Password", ""),
-            settings.GetSetting("DynamicDataModelStructure", new MqttDynamicDataModelStructureNode {
+            settings.GetSetting("DynamicDataModelStructure", new StructureDefinitionNode {
                 Label = "Root",
-                Children = new List<MqttDynamicDataModelStructureNode>()
+                Children = new List<StructureDefinitionNode>()
             })
         );
     }

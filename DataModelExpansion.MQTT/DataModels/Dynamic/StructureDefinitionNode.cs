@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DataModelExpansion.Mqtt.Settings {
+namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
 
     /// <summary>
     /// Class that defines a single node of the DataModel structure.
     /// </summary>
-    public class MqttDynamicDataModelStructureNode {
+    public class StructureDefinitionNode {
 
         /// <summary>
         /// The display name this node will appear as in the Artemis Data Model.
@@ -32,7 +32,7 @@ namespace DataModelExpansion.Mqtt.Settings {
         /// <summary>
         /// Any children this node has.
         /// </summary>
-        public List<MqttDynamicDataModelStructureNode> Children { get; set; }
+        public List<StructureDefinitionNode> Children { get; set; }
 
         /// <summary>
         /// Returns a list of all topics that are being listened to by this node and its child nodes.

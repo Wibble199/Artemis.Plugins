@@ -1,17 +1,20 @@
 ﻿using Artemis.Core;
 using Artemis.UI.Shared;
 using Artemis.UI.Shared.Services;
-using DataModelExpansion.Mqtt.Settings;
+using DataModelExpansion.Mqtt.DataModels.Dynamic;
 
-namespace DataModelExpansion.Mqtt.ViewModels {
+namespace DataModelExpansion.Mqtt.Screens {
 
-    public class MqttConfigurationViewModel : PluginConfigurationViewModel {
+    /// <summary>
+    /// ViewModel for the main MQTT plugin configuration view.
+    /// </summary>
+    public class MqttPluginConfigurationViewModel : PluginConfigurationViewModel {
 
-        private readonly PluginSetting<MqttDynamicDataModelStructureNode> dynamicDataModelStructureSetting;
+        private readonly PluginSetting<StructureDefinitionNode> dynamicDataModelStructureSetting;
 
-        public MqttConfigurationViewModel(Plugin plugin, PluginSettings settings, IDialogService dialogService) : base(plugin) {
+        public MqttPluginConfigurationViewModel(Plugin plugin, PluginSettings settings, IDialogService dialogService) : base(plugin) {
             (ServerUrlSetting, ServerPortSetting, ClientIdSetting, UsernameSetting, PasswordSetting, dynamicDataModelStructureSetting) = settings.GetMqqtSettings();
-            DynamicDataModelStructureRoot = new MqttDataModelStructureConfigurationViewModel(dialogService, null, dynamicDataModelStructureSetting.Value);
+            DynamicDataModelStructureRoot = new StructureNodeViewModel(dialogService, null, dynamicDataModelStructureSetting.Value);
         }
 
         public PluginSetting<string> ServerUrlSetting { get; }
@@ -20,7 +23,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         public PluginSetting<string> UsernameSetting { get; }
         public PluginSetting<string> PasswordSetting { get; }
 
-        public MqttDataModelStructureConfigurationViewModel DynamicDataModelStructureRoot { get; }
+        public StructureNodeViewModel DynamicDataModelStructureRoot { get; }
 
         protected override void OnInitialActivate() {
             base.OnInitialActivate();

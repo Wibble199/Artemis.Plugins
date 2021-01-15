@@ -20,6 +20,10 @@
     <None Remove="Screenshots\**" />
     <Page Remove="Screenshots\**" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="readme.md" />
+  </ItemGroup>
  
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" PrivateAssets="All" />

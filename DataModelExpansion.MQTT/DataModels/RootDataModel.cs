@@ -1,10 +1,10 @@
 ﻿using Artemis.Core.DataModelExpansions;
-using DataModelExpansion.Mqtt.Settings;
+using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using System;
 
 namespace DataModelExpansion.Mqtt.DataModels {
 
-    public class MqttDataModel : DataModel {
+    public class RootDataModel : DataModel {
 
         public bool IsConnected { get; set; }
 
@@ -12,19 +12,19 @@ namespace DataModelExpansion.Mqtt.DataModels {
         /// Handles an incoming message for a particular topic.
         /// </summary>
         internal void HandleMessage(string topic, object data) {
-            DynamicChild<MqttDynamicDataModel>("DynamicData").PropogateValue(topic, data);
+            DynamicChild<DynamicDataModelBase>("DynamicData").PropogateValue(topic, data);
         }
 
         /// <summary>
         /// Removes and rebuilds the dynamically created DataModel.
         /// </summary>
-        internal void UpdateDataModel(MqttDynamicDataModelStructureNode dataModelStructure) {
+        internal void UpdateDataModel(StructureDefinitionNode dataModelStructure) {
             // Remove existing
             RemoveDynamicChildByKey("DynamicData");
 
             // Build and add new structure
-            var type = MqttDynamicDataModelClassBuilder.Build(dataModelStructure);
-            var inst = (MqttDynamicDataModel)Activator.CreateInstance(type);
+            var type = DynamicDataModelBuilder.Build(dataModelStructure);
+            var inst = (DynamicDataModelBase)Activator.CreateInstance(type);
             AddDynamicChild(inst, "DynamicData", "Data");
         }
     }

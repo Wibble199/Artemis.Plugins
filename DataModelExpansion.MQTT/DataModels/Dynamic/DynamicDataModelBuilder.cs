@@ -1,12 +1,11 @@
 ﻿using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
-using DataModelExpansion.Mqtt.DataModels;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
 using static System.Reflection.Emit.OpCodes;
 
-namespace DataModelExpansion.Mqtt.Settings {
+namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
 
     /// <summary>
     /// Class that creates a class derived from <see cref="DataModel"/> with the given properties.
@@ -15,40 +14,40 @@ namespace DataModelExpansion.Mqtt.Settings {
     /// Uses a custom class builder instead of <see cref="DataModel.AddDynamicChild{T}(T, string, string?, string?)"/> because
     /// that restricts dynamic children to be DataModels themselves, but I want to be able to dynamically add simple types.
     /// </remarks>
-    public static class MqttDynamicDataModelClassBuilder {
+    public static class DynamicDataModelBuilder {
 
         // Builders
         private static readonly AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("DynamicDataModels"), AssemblyBuilderAccess.RunAndCollect);
         private static readonly ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule("MainModule");
 
         // Reflection
-        private static readonly MethodInfo propogateValueAbstract = typeof(MqttDynamicDataModel).GetMethod(nameof(MqttDynamicDataModel.PropogateValue));
+        private static readonly MethodInfo propogateValueAbstract = typeof(DynamicDataModelBase).GetMethod(nameof(DynamicDataModelBase.PropogateValue));
         private static readonly MethodInfo stringEquals = typeof(string).GetMethod("op_Equality");
         private static readonly MethodInfo getTypeFromHandle = typeof(Type).GetMethod(nameof(Type.GetTypeFromHandle));
         private static readonly MethodInfo convertChangeType = typeof(Convert).GetMethod(nameof(Convert.ChangeType), new[] { typeof(object), typeof(Type) });
-        private static readonly ConstructorInfo mqttDynamicDataModelCtor = typeof(MqttDynamicDataModel).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+        private static readonly ConstructorInfo mqttDynamicDataModelCtor = typeof(DynamicDataModelBase).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
         private static readonly MethodInfo objectEquals = typeof(object).GetMethod(nameof(object.Equals), new[] { typeof(object), typeof(object) });
 
         /// <summary>
         /// Creates a new type with the given fields.
         /// </summary>
-        public static Type Build(MqttDynamicDataModelStructureNode dataModelNode) {
+        public static Type Build(StructureDefinitionNode dataModelNode) {
             if (dataModelNode.Type != null)
                 throw new ArgumentException("Root data model node must not be a concrete type.");
             return RecursiveBuild(dataModelNode);
         }
 
-        private static Type RecursiveBuild(MqttDynamicDataModelStructureNode dataModelNode) {
+        private static Type RecursiveBuild(StructureDefinitionNode dataModelNode) {
             // Create dynamic type
             var typeBuilder = moduleBuilder.DefineType("DynamicDataModel_" + Guid.NewGuid().ToString("N"), TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout);
-            typeBuilder.SetParent(typeof(MqttDynamicDataModel));
+            typeBuilder.SetParent(typeof(DynamicDataModelBase));
 
             // Implement ctor to create new instances of child data models
             var ctor = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.HasThis, Type.EmptyTypes);
             var ctorIl = ctor.GetILGenerator();
 
             // Implement PropogateValue to handle setting topic values
-            var propogateValue = typeBuilder.DefineMethod(nameof(MqttDynamicDataModel.PropogateValue), MethodAttributes.Public | MethodAttributes.Virtual, typeof(void), new[] { typeof(string), typeof(object) });
+            var propogateValue = typeBuilder.DefineMethod(nameof(DynamicDataModelBase.PropogateValue), MethodAttributes.Public | MethodAttributes.Virtual, typeof(void), new[] { typeof(string), typeof(object) });
             var pvIl = propogateValue.GetILGenerator();
 
             // Create property for each child
