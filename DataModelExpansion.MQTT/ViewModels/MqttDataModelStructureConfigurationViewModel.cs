@@ -19,6 +19,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         private string label;
         private string topic;
         private Type type;
+        private bool generateEvent;
 
         /// <summary>
         /// Creates a new, blank ViewModel that represents a non-materialized <see cref="MqttDynamicDataModelStructureNode"/>.
@@ -35,6 +36,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             label = model.Label;
             topic = model.Topic;
             type = model.Type;
+            generateEvent = model.GenerateEvent;
             if (model.Children != null)
                 Children = new BindableCollection<MqttDataModelStructureConfigurationViewModel>(
                     model.Children.Select(c => new MqttDataModelStructureConfigurationViewModel(dialogService, this, c))
@@ -57,6 +59,11 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             set => SetAndNotify(ref type, value);
         }
 
+        public bool GenerateEvent {
+            get => generateEvent;
+            set => SetAndNotify(ref generateEvent, value);
+        }
+
         public BindableCollection<MqttDataModelStructureConfigurationViewModel> Children { get; init; }
 
         public bool IsGroup => Children != null;
@@ -73,6 +80,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
                 Label = r.Label;
                 Topic = r.Topic;
                 Type = r.Type;
+                generateEvent = r.GenerateEvent;
             }
         }
 
@@ -112,6 +120,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
                     Label = r.Label,
                     Topic = addGroup ? null : r.Topic,
                     Type = addGroup ? null : r.Type,
+                    GenerateEvent = !addGroup && generateEvent,
                     Children = addGroup ? new BindableCollection<MqttDataModelStructureConfigurationViewModel>() : null
                 });
         }
@@ -125,6 +134,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             Label = label,
             Topic = topic,
             Type = type,
+            GenerateEvent = generateEvent,
             Children = IsGroup ? new List<MqttDynamicDataModelStructureNode>(Children.Select(c => c.ViewModelToModel())) : null
         };
     }

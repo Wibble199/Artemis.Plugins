@@ -14,6 +14,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
         private string label;
         private string topic;
         private Type type;
+        private bool generateEvent;
 
         public MqttNodeConfigurationViewModel(IModelValidator<MqttNodeConfigurationViewModel> validator, bool isGroup) : base(validator) {
             label = "";
@@ -26,6 +27,7 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             label = target.Label;
             topic = target.Topic;
             type = target.Type;
+            generateEvent = target.GenerateEvent;
             IsGroup = target.IsGroup;
         }
 
@@ -44,6 +46,11 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             set => SetAndNotify(ref type, value);
         }
 
+        public bool GenerateEvent {
+            get => generateEvent;
+            set => SetAndNotify(ref generateEvent, value);
+        }
+
         public bool IsGroup { get; }
         public bool IsValue => !IsGroup;
 
@@ -53,13 +60,13 @@ namespace DataModelExpansion.Mqtt.ViewModels {
             await ValidateAsync();
 
             if (!HasErrors)
-                Session.Close(new DialogResult(Label, Topic, Type));
+                Session.Close(new DialogResult(Label, Topic, Type, GenerateEvent));
         }
 
         /// <summary>
         /// POCO that contains the result of a successful MqttNodeConfiguration dialog.
         /// </summary>
-        public record DialogResult(string Label, string Topic, Type Type);
+        public record DialogResult(string Label, string Topic, Type Type, bool GenerateEvent);
     }
 
 

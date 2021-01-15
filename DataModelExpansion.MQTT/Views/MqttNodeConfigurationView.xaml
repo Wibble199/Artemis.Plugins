@@ -43,6 +43,16 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
+        <DockPanel Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ToggleButton
+                DockPanel.Dock="Right"
+                IsChecked="{Binding GenerateEvent}"
+                Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+            <TextBlock
+                Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                Text="Generate change event" />
+        </DockPanel>
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button
                 Command="{s:Action Cancel}"
