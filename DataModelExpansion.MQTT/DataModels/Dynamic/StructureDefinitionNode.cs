@@ -42,5 +42,13 @@ namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
                 ? string.IsNullOrWhiteSpace(Topic) ? Array.Empty<string>() : new[] { Topic }
                 : Children.SelectMany(c => c.GetTopics()).Distinct();
         }
+
+        /// <summary>
+        /// Returns a default root <see cref="StructureDefinitionNode"/>.
+        /// </summary>
+        public static StructureDefinitionNode RootDefault => new StructureDefinitionNode {
+            Label = "Root",
+            Children = new List<StructureDefinitionNode>()
+        };
     }
 }

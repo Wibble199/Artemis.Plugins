@@ -3,60 +3,72 @@ using Artemis.Core.DataModelExpansions;
 using DataModelExpansion.Mqtt.DataModels;
 using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using MQTTnet;
-using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataModelExpansion.Mqtt {
 
     public class MqttDataModelExpansion : DataModelExpansion<RootDataModel> {
 
-        private readonly MqttConnector client;
+        private readonly List<MqttConnector> connectors = new();
 
-        private readonly PluginSetting<string> serverUrlSetting;
-        private readonly PluginSetting<int> serverPortSetting;
-        private readonly PluginSetting<string> clientIdSetting;
-        private readonly PluginSetting<string> usernameSetting;
-        private readonly PluginSetting<string> passwordSetting;
-        private readonly PluginSetting<StructureDefinitionNode> dynamicDataModelStructure;
+        private readonly PluginSetting<List<MqttConnectionSettings>> serverConnectionsSetting;
+        private readonly PluginSetting<StructureDefinitionNode> dynamicDataModelStructureSetting;
 
         public MqttDataModelExpansion(PluginSettings settings) {
-            (serverUrlSetting, serverPortSetting, clientIdSetting, usernameSetting, passwordSetting, dynamicDataModelStructure) = settings.GetMqqtSettings();
-            serverUrlSetting.PropertyChanged += OnServerSettingChanged;
-            serverPortSetting.PropertyChanged += OnServerSettingChanged;
-            clientIdSetting.PropertyChanged += OnServerSettingChanged;
-            usernameSetting.PropertyChanged += OnServerSettingChanged;
-            passwordSetting.PropertyChanged += OnServerSettingChanged;
-            dynamicDataModelStructure.PropertyChanged += OnDataModelStructureChanged;
+            serverConnectionsSetting = settings.GetSetting("ServerConnections", new List<MqttConnectionSettings>());
+            serverConnectionsSetting.PropertyChanged += OnSeverConnectionListChanged;
 
-            client = new();
-            client.OnMessageReceived += OnMqttClientMessageReceived;
+            dynamicDataModelStructureSetting = settings.GetSetting("DynamicDataModelStructure", StructureDefinitionNode.RootDefault);
+            dynamicDataModelStructureSetting.PropertyChanged += OnDataModelStructureChanged;
         }
 
         public override async void Enable() {
-            DataModel.UpdateDataModel(dynamicDataModelStructure.Value);
-            RestartMqttClient();
+            DataModel.UpdateDataModel(dynamicDataModelStructureSetting.Value);
+            await RestartConnectors();
         }
 
-        public override void Disable() {
-            StopMqttClient();
+        public override async void Disable() {
+            await StopConnectors();
         }
 
         public override void Update(double deltaTime) { }
 
 
-        private async void RestartMqttClient() {
-            await client.Start(new MqttConnectionSettings(
-                Guid.NewGuid(),
-                serverUrlSetting.Value,
-                serverPortSetting.Value,
-                clientIdSetting.Value,
-                usernameSetting.Value,
-                passwordSetting.Value
-            ));
+        private Task RestartConnectors() {
+            // Resize connectors to match number of setup servers
+            // - Remove extraneous connectors if there are more connectors than there are server connections
+            if (connectors.Count > serverConnectionsSetting.Value.Count) {
+                var amountToRemove = connectors.Count - serverConnectionsSetting.Value.Count;
+                foreach (var connector in connectors.Take(amountToRemove)) {
+                    connector.OnMessageReceived -= OnMqttClientMessageReceived;
+                    connector.Dispose();
+                }
+                connectors.RemoveRange(0, amountToRemove);
+            }
+
+            // - Add new connectors if there are less connectors than there are server connections
+            else if (connectors.Count < serverConnectionsSetting.Value.Count) {
+                for (var i = connectors.Count; i < serverConnectionsSetting.Value.Count; i++) {
+                    var connector = new MqttConnector();
+                    connector.OnMessageReceived += OnMqttClientMessageReceived;
+                    connectors.Add(connector);
+                }
+            }
+
+
+            // Start each connector with relevant settings
+            return Task.WhenAll(
+                connectors.Select((connector, i) => connector.Start(serverConnectionsSetting.Value[i]))
+            );
         }
 
-        private async void StopMqttClient() {
-            await client?.Stop();
+        private Task StopConnectors() {
+            return Task.WhenAll(
+                connectors.Select(connector => connector.Stop())
+            );
         }
 
         private void OnMqttClientMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e) {
@@ -64,16 +76,24 @@ namespace DataModelExpansion.Mqtt {
             DataModel.HandleMessage(e.ApplicationMessage.Topic, e.ApplicationMessage.ConvertPayloadToString());
         }
 
-        private void OnServerSettingChanged(object sender, PropertyChangedEventArgs e) {
-            RestartMqttClient();
+        private void OnSeverConnectionListChanged(object sender, PropertyChangedEventArgs e) {
+            RestartConnectors();
         }
 
         private async void OnDataModelStructureChanged(object sender, PropertyChangedEventArgs e) {
             // Rebuild the Artemis Data Model with the new structure
-            DataModel.UpdateDataModel(dynamicDataModelStructure.Value);
+            DataModel.UpdateDataModel(dynamicDataModelStructureSetting.Value);
 
             // Restart the Mqtt client incase it needs to change which topics it's subscribed to
-            RestartMqttClient();
+            await RestartConnectors();
+        }
+
+        protected override void Dispose(bool disposing) {
+            connectors.ForEach(connector => {
+                connector.OnMessageReceived -= OnMqttClientMessageReceived;
+                connector.Dispose();
+            });
+            connectors.Clear();
         }
     }
 }
