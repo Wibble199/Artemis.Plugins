@@ -3,11 +3,6 @@ using Artemis.Core.DataModelExpansions;
 using DataModelExpansion.Mqtt.DataModels;
 using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Disconnecting;
-using MQTTnet.Client.Options;
-using MQTTnet.Extensions.ManagedClient;
 using System;
 using System.ComponentModel;
 
@@ -15,7 +10,8 @@ namespace DataModelExpansion.Mqtt {
 
     public class MqttDataModelExpansion : DataModelExpansion<RootDataModel> {
 
-        private IManagedMqttClient client;
+        private readonly MqttConnector client;
+
         private readonly PluginSetting<string> serverUrlSetting;
         private readonly PluginSetting<int> serverPortSetting;
         private readonly PluginSetting<string> clientIdSetting;
@@ -31,6 +27,9 @@ namespace DataModelExpansion.Mqtt {
             usernameSetting.PropertyChanged += OnServerSettingChanged;
             passwordSetting.PropertyChanged += OnServerSettingChanged;
             dynamicDataModelStructure.PropertyChanged += OnDataModelStructureChanged;
+
+            client = new();
+            client.OnMessageReceived += OnMqttClientMessageReceived;
         }
 
         public override async void Enable() {
@@ -46,50 +45,23 @@ namespace DataModelExpansion.Mqtt {
 
 
         private async void RestartMqttClient() {
-            // Create Mqtt client if it is not already created
-            if (client == null) {
-                client = new MqttFactory().CreateManagedMqttClient();
-                client.UseApplicationMessageReceivedHandler(OnMqttClientMessageReceived);
-                client.UseConnectedHandler(OnMqttClientConnected);
-                client.UseDisconnectedHandler(OnMqttClientDisconnected);
-            }
-
-            // Create options for the client
-            var clientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer(serverUrlSetting.Value, serverPortSetting.Value)
-                .WithClientId(clientIdSetting.Value);
-
-            if (!string.IsNullOrWhiteSpace(usernameSetting.Value))
-                clientOptions = clientOptions.WithCredentials(usernameSetting.Value, passwordSetting.Value);
-
-            var managedClientOptions = new ManagedMqttClientOptionsBuilder()
-                .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
-                .WithClientOptions(clientOptions.Build())
-                .Build();
-
-            // Restart the client with the new options
-            await client.StopAsync();
-            await client.StartAsync(managedClientOptions);
-
-            foreach (var topic in dynamicDataModelStructure.Value.GetTopics())
-                await client.SubscribeAsync(topic);
+            await client.Start(new MqttConnectionSettings(
+                Guid.NewGuid(),
+                serverUrlSetting.Value,
+                serverPortSetting.Value,
+                clientIdSetting.Value,
+                usernameSetting.Value,
+                passwordSetting.Value
+            ));
         }
 
         private async void StopMqttClient() {
-            await client?.StopAsync();
+            await client?.Stop();
         }
 
-        private void OnMqttClientMessageReceived(MqttApplicationMessageReceivedEventArgs e) {
+        private void OnMqttClientMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e) {
             // Pass incoming messages to the root DataModel's HandleMessage method.
             DataModel.HandleMessage(e.ApplicationMessage.Topic, e.ApplicationMessage.ConvertPayloadToString());
-        }
-
-        private void OnMqttClientConnected(MqttClientConnectedEventArgs e) {
-            DataModel.IsConnected = true;
-        }
-
-        private void OnMqttClientDisconnected(MqttClientDisconnectedEventArgs e) {
-            DataModel.IsConnected = false;
         }
 
         private void OnServerSettingChanged(object sender, PropertyChangedEventArgs e) {

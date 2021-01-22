@@ -6,8 +6,6 @@ namespace DataModelExpansion.Mqtt.DataModels {
 
     public class RootDataModel : DataModel {
 
-        public bool IsConnected { get; set; }
-
         /// <summary>
         /// Handles an incoming message for a particular topic.
         /// </summary>
