@@ -1,9 +1,11 @@
-﻿using MQTTnet;
+using MQTTnet;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataModelExpansion.Mqtt {
@@ -26,7 +28,10 @@ namespace DataModelExpansion.Mqtt {
         /// <summary>
         /// Event that fires when this connector receives a message from the server it is connected to.
         /// </summary>
-        public event EventHandler<MqttApplicationMessageReceivedEventArgs> OnMessageReceived;
+        public event EventHandler<MqttApplicationMessageReceivedEventArgs> MessageReceived;
+
+        public event EventHandler<MqttClientConnectedEventArgs> Connected;
+        public event EventHandler<MqttClientDisconnectedEventArgs> Disconnected;
 
         /// <summary>
         /// The ID of the server this connector is connected to. <para/>
@@ -75,15 +80,17 @@ namespace DataModelExpansion.Mqtt {
         }
 
         private void OnClientMessageReceived(MqttApplicationMessageReceivedEventArgs e) {
-            OnMessageReceived?.Invoke(this, e);
+            MessageReceived?.Invoke(this, e);
         }
 
         private void OnClientConnected(MqttClientConnectedEventArgs e) {
             IsConnected = true;
+            Connected?.Invoke(this, e);
         }
 
         private void OnClientDisconnected(MqttClientDisconnectedEventArgs e) {
             IsConnected = false;
+            Disconnected?.Invoke(this, e);
         }
 
         public void Dispose() {

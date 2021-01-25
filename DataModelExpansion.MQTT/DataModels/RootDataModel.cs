@@ -25,5 +25,7 @@ namespace DataModelExpansion.Mqtt.DataModels {
             var inst = (DynamicDataModelBase)Activator.CreateInstance(type);
             AddDynamicChild(inst, "DynamicData", "Data");
         }
+
+        public MqttConnectorStatusCollection Statuses { get; } = new();
     }
 }

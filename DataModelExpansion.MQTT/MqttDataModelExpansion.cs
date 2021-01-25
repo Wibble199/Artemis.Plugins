@@ -1,8 +1,10 @@
-﻿using Artemis.Core;
+using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
 using DataModelExpansion.Mqtt.DataModels;
 using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using MQTTnet;
+using MQTTnet.Client.Connecting;
+using MQTTnet.Client.Disconnecting;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -27,6 +29,7 @@ namespace DataModelExpansion.Mqtt {
 
         public override async void Enable() {
             DataModel.UpdateDataModel(dynamicDataModelStructureSetting.Value);
+            DataModel.Statuses.UpdateConnectorList(serverConnectionsSetting.Value);
             await RestartConnectors();
         }
 
@@ -43,7 +46,9 @@ namespace DataModelExpansion.Mqtt {
             if (connectors.Count > serverConnectionsSetting.Value.Count) {
                 var amountToRemove = connectors.Count - serverConnectionsSetting.Value.Count;
                 foreach (var connector in connectors.Take(amountToRemove)) {
-                    connector.OnMessageReceived -= OnMqttClientMessageReceived;
+                    connector.MessageReceived -= OnMqttClientMessageReceived;
+                    connector.Connected -= OnMqttClientConnected;
+                    connector.Disconnected -= OnMqttClientDisconnected;
                     connector.Dispose();
                 }
                 connectors.RemoveRange(0, amountToRemove);
@@ -53,7 +58,9 @@ namespace DataModelExpansion.Mqtt {
             else if (connectors.Count < serverConnectionsSetting.Value.Count) {
                 for (var i = connectors.Count; i < serverConnectionsSetting.Value.Count; i++) {
                     var connector = new MqttConnector();
-                    connector.OnMessageReceived += OnMqttClientMessageReceived;
+                    connector.MessageReceived += OnMqttClientMessageReceived;
+                    connector.Connected += OnMqttClientConnected;
+                    connector.Disconnected += OnMqttClientDisconnected;
                     connectors.Add(connector);
                 }
             }
@@ -76,8 +83,17 @@ namespace DataModelExpansion.Mqtt {
             DataModel.HandleMessage((sender as MqttConnector).ServerId, e.ApplicationMessage.Topic, e.ApplicationMessage.ConvertPayloadToString());
         }
 
+        private void OnMqttClientConnected(object sender, MqttClientConnectedEventArgs e) {
+            DataModel.Statuses[(sender as MqttConnector).ServerId].IsConnected = true;
+        }
+
+        private void OnMqttClientDisconnected(object sender, MqttClientDisconnectedEventArgs e) {
+            DataModel.Statuses[(sender as MqttConnector).ServerId].IsConnected = false;
+        }
+
         private void OnSeverConnectionListChanged(object sender, PropertyChangedEventArgs e) {
             RestartConnectors();
+            DataModel.Statuses.UpdateConnectorList(serverConnectionsSetting.Value);
         }
 
         private async void OnDataModelStructureChanged(object sender, PropertyChangedEventArgs e) {
@@ -90,7 +106,7 @@ namespace DataModelExpansion.Mqtt {
 
         protected override void Dispose(bool disposing) {
             connectors.ForEach(connector => {
-                connector.OnMessageReceived -= OnMqttClientMessageReceived;
+                connector.MessageReceived -= OnMqttClientMessageReceived;
                 connector.Dispose();
             });
             connectors.Clear();
