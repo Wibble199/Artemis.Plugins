@@ -1,4 +1,5 @@
 ﻿using Artemis.Core.DataModelExpansions;
+using System;
 
 namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
 
@@ -11,6 +12,6 @@ namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
         /// Takes an incoming topic and value and populates any values that use that topic.
         /// Calls <see cref="PropogateValue(string, object)"/> on any child MqttDynamicDataModels.
         /// </summary>
-        public abstract void PropogateValue(string topic, object value);
+        public abstract void PropogateValue(Guid sourceServer, string topic, object value);
     }
 }

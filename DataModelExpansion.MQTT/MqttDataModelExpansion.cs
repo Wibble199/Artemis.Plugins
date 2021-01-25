@@ -73,7 +73,7 @@ namespace DataModelExpansion.Mqtt {
 
         private void OnMqttClientMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e) {
             // Pass incoming messages to the root DataModel's HandleMessage method.
-            DataModel.HandleMessage(e.ApplicationMessage.Topic, e.ApplicationMessage.ConvertPayloadToString());
+            DataModel.HandleMessage((sender as MqttConnector).ServerId, e.ApplicationMessage.Topic, e.ApplicationMessage.ConvertPayloadToString());
         }
 
         private void OnSeverConnectionListChanged(object sender, PropertyChangedEventArgs e) {

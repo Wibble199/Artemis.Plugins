@@ -7,10 +7,10 @@ namespace DataModelExpansion.Mqtt.DataModels {
     public class RootDataModel : DataModel {
 
         /// <summary>
-        /// Handles an incoming message for a particular topic.
+        /// Handles an incoming message for a particular server and topic.
         /// </summary>
-        internal void HandleMessage(string topic, object data) {
-            DynamicChild<DynamicDataModelBase>("DynamicData").PropogateValue(topic, data);
+        internal void HandleMessage(Guid sourceServer, string topic, object data) {
+            DynamicChild<DynamicDataModelBase>("DynamicData").PropogateValue(sourceServer, topic, data);
         }
 
         /// <summary>

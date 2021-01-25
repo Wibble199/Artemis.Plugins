@@ -1,4 +1,5 @@
-﻿using Artemis.UI.Shared.Services;
+﻿using Artemis.Core;
+using Artemis.UI.Shared.Services;
 using FluentValidation;
 using Stylet;
 using System;
@@ -15,28 +16,38 @@ namespace DataModelExpansion.Mqtt.Screens {
         private static readonly Type[] supportedTypes = new[] { typeof(string), typeof(bool), typeof(int), typeof(double) };
 
         private string label;
+        private Guid? server;
         private string topic;
         private Type type;
         private bool generateEvent;
 
-        public StructureNodeConfigurationDialogViewModel(IModelValidator<StructureNodeConfigurationDialogViewModel> validator, bool isGroup) : base(validator) {
+        public StructureNodeConfigurationDialogViewModel(IModelValidator<StructureNodeConfigurationDialogViewModel> validator, PluginSettings settingsService, bool isGroup) : base(validator) {
             label = "";
+            server = Guid.Empty;
             topic = isGroup ? null : "";
             type = isGroup ? null : supportedTypes[0];
             IsGroup = isGroup;
+            ServerConnectionsSetting = settingsService.GetSetting<List<MqttConnectionSettings>>("ServerConnections");
         }
 
-        public StructureNodeConfigurationDialogViewModel(IModelValidator<StructureNodeConfigurationDialogViewModel> validator, StructureNodeViewModel target) : base(validator) {
+        public StructureNodeConfigurationDialogViewModel(IModelValidator<StructureNodeConfigurationDialogViewModel> validator, PluginSettings settingsService, StructureNodeViewModel target) : base(validator) {
             label = target.Label;
+            server = target.Server;
             topic = target.Topic;
             type = target.Type;
             generateEvent = target.GenerateEvent;
             IsGroup = target.IsGroup;
+            ServerConnectionsSetting = settingsService.GetSetting<List<MqttConnectionSettings>>("ServerConnections");
         }
 
         public string Label {
             get => label;
             set => SetAndNotify(ref label, value);
+        }
+
+        public Guid? Server {
+            get => server;
+            set => SetAndNotify(ref server, value);
         }
 
         public string Topic {
@@ -58,27 +69,28 @@ namespace DataModelExpansion.Mqtt.Screens {
         public bool IsValue => !IsGroup;
 
         public IEnumerable<Type> SupportedValueTypes => supportedTypes;
+        public PluginSetting<List<MqttConnectionSettings>> ServerConnectionsSetting { get; }
 
         public async Task Save() {
             await ValidateAsync();
 
             if (!HasErrors)
-                Session.Close(new DialogResult(Label, Topic, Type, GenerateEvent));
+                Session.Close(new DialogResult(Label, Server, Topic, Type, GenerateEvent));
         }
 
         /// <summary>
         /// POCO that contains the result of a successful MqttNodeConfiguration dialog.
         /// </summary>
-        public record DialogResult(string Label, string Topic, Type Type, bool GenerateEvent);
+        public record DialogResult(string Label, Guid? Server, string Topic, Type Type, bool GenerateEvent);
     }
 
 
     public class MqttNodeConfigurationViewModelValidator : AbstractValidator<StructureNodeConfigurationDialogViewModel> {
         public MqttNodeConfigurationViewModelValidator() {
-            RuleFor(m => m.Label).NotEmpty().WithMessage("Label cannot be blank.");
+            RuleFor(m => m.Label).NotEmpty().WithMessage("Label cannot be blank");
 
             When(m => !m.IsGroup, () => {
-                RuleFor(m => m.Type).NotNull();
+                RuleFor(m => m.Type).NotNull().WithMessage("Choose a type for this data model property");
             });
         }
     }

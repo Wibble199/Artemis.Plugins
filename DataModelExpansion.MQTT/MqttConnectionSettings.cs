@@ -32,7 +32,8 @@ namespace DataModelExpansion.Mqtt {
             this.password = password;
         }
 
-        public Guid ServerId { get; }
+        // Note that private setter allows value to be set by JSON serializer.
+        public Guid ServerId { get; set; }
 
         public string DisplayName {
             get => displayName;

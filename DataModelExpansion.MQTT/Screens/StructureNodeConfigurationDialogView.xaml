@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:art="clr-namespace:Artemis.UI.Shared;assembly=Artemis.UI.Shared"
+             xmlns:local="clr-namespace:DataModelExpansion.Mqtt.Screens"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             Width="450">
+             Width="450"
+             d:DataContext="{d:DesignInstance local:StructureNodeConfigurationDialogViewModel, IsDesignTimeCreatable=False}">
     <UserControl.Resources>
         <art:TypeToStringConverter x:Key="TypeToStringConverter" />
     </UserControl.Resources>
@@ -21,12 +23,31 @@
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
             Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" />
 
-        <TextBox
+        <Grid
             Margin="0 8 0 16"
-            materialDesign:HintAssist.Hint="MQTT Topic"
-            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-            Text="{Binding Topic, UpdateSourceTrigger=PropertyChanged}"
-            Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="24" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            
+            <ComboBox
+                DisplayMemberPath="DisplayName"
+                Grid.Column="0"
+                ItemsSource="{Binding ServerConnectionsSetting.Value}"
+                materialDesign:HintAssist.Hint="Server"
+                SelectedValue="{Binding Server}"
+                SelectedValuePath="ServerId"
+                Style="{StaticResource MaterialDesignComboBox}"
+                VerticalAlignment="Bottom" />
+
+            <TextBox
+                Grid.Column="2"
+                materialDesign:HintAssist.Hint="Topic"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Text="{Binding Topic, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
 
         <ComboBox
             ItemsSource="{Binding SupportedValueTypes}"
@@ -34,7 +55,6 @@
             materialDesign:HintAssist.Hint="Data model type"
             SelectedItem="{Binding Type}"
             Style="{StaticResource MaterialDesignComboBox}"
-            VerticalAlignment="Stretch"
             Visibility="{Binding IsValue, Converter={StaticResource BooleanToVisibilityConverter}}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
@@ -62,7 +82,7 @@
                 Style="{StaticResource MaterialDesignFlatButton}" />
             <Button
                 Command="{s:Action Save}" 
-                Content="Save"
+                Content="Confirm"
                 IsDefault="True"
                 Margin="0 8 8 0"
                 Style="{StaticResource MaterialDesignFlatButton}" />

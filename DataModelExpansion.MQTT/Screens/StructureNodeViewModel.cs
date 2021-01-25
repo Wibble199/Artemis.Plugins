@@ -1,4 +1,4 @@
-﻿using Artemis.UI.Shared.Services;
+using Artemis.UI.Shared.Services;
 using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using Stylet;
 using System;
@@ -17,6 +17,7 @@ namespace DataModelExpansion.Mqtt.Screens {
         private readonly StructureNodeViewModel parent;
 
         private string label;
+        private Guid? server;
         private string topic;
         private Type type;
         private bool generateEvent;
@@ -34,6 +35,7 @@ namespace DataModelExpansion.Mqtt.Screens {
         /// </summary>
         public StructureNodeViewModel(IDialogService dialogService, StructureNodeViewModel parent, StructureDefinitionNode model) : this(dialogService, parent) {
             label = model.Label;
+            server = model.Server;
             topic = model.Topic;
             type = model.Type;
             generateEvent = model.GenerateEvent;
@@ -47,6 +49,11 @@ namespace DataModelExpansion.Mqtt.Screens {
         public string Label {
             get => label;
             set => SetAndNotify(ref label, value);
+        }
+
+        public Guid? Server {
+            get => server;
+            set => SetAndNotify(ref server, value);
         }
 
         public string Topic {
@@ -78,6 +85,7 @@ namespace DataModelExpansion.Mqtt.Screens {
             var result = await dialogService.ShowDialogAt<StructureNodeConfigurationDialogViewModel>("MqttConfigHost", new() { ["target"] = this });
             if (result is StructureNodeConfigurationDialogViewModel.DialogResult r) {
                 Label = r.Label;
+                Server = r.Server;
                 Topic = r.Topic;
                 Type = r.Type;
                 generateEvent = r.GenerateEvent;
@@ -118,6 +126,7 @@ namespace DataModelExpansion.Mqtt.Screens {
             if (result is StructureNodeConfigurationDialogViewModel.DialogResult r)
                 Children.Add(new StructureNodeViewModel(dialogService, this) {
                     Label = r.Label,
+                    Server = addGroup ? null : r.Server,
                     Topic = addGroup ? null : r.Topic,
                     Type = addGroup ? null : r.Type,
                     GenerateEvent = !addGroup && generateEvent,
@@ -132,6 +141,7 @@ namespace DataModelExpansion.Mqtt.Screens {
         /// </summary>
         public StructureDefinitionNode ViewModelToModel() => new StructureDefinitionNode {
             Label = label,
+            Server = server,
             Topic = topic,
             Type = type,
             GenerateEvent = generateEvent,

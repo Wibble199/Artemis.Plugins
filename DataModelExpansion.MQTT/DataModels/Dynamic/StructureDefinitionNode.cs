@@ -15,6 +15,11 @@ namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
         public string Label { get; set; }
 
         /// <summary>
+        /// The server that will be used to subscribe to <see cref="Topic"/>.
+        /// </summary>
+        public Guid? Server { get; set; }
+
+        /// <summary>
         /// The topic that can be used to set the value of this node.
         /// </summary>
         public string Topic { get; set; }
