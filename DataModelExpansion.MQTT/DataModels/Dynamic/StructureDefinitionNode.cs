@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
 
@@ -38,15 +37,6 @@ namespace DataModelExpansion.Mqtt.DataModels.Dynamic {
         /// Any children this node has.
         /// </summary>
         public List<StructureDefinitionNode> Children { get; set; }
-
-        /// <summary>
-        /// Returns a list of all topics that are being listened to by this node and its child nodes.
-        /// </summary>
-        public IEnumerable<string> GetTopics() {
-            return Children == null
-                ? string.IsNullOrWhiteSpace(Topic) ? Array.Empty<string>() : new[] { Topic }
-                : Children.SelectMany(c => c.GetTopics()).Distinct();
-        }
 
         /// <summary>
         /// Returns a default root <see cref="StructureDefinitionNode"/>.

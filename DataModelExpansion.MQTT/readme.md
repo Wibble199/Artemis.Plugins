@@ -30,4 +30,3 @@ You can then bind your layer properties or display conditions to these data mode
 - TLS/SSL authentication
 - Support more complex data types
 - Support for JSON-encoded data that can set multiple data model properties
-- Multiple MQTT servers

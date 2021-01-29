@@ -1,4 +1,4 @@
-using MQTTnet;
+﻿using MQTTnet;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
@@ -49,7 +49,8 @@ namespace DataModelExpansion.Mqtt {
         /// If the client is already connected, it will first be stopped then restarted with the new settings.
         /// </summary>
         /// <param name="settings">Settings to use to initialise the client.</param>
-        public async Task Start(MqttConnectionSettings settings) {
+        /// <param name="topics">Topics to subscribe to.</param>
+        public async Task Start(MqttConnectionSettings settings, IEnumerable<string> topics) {
             // Setup client options
             ServerId = settings.ServerId;
 
@@ -69,7 +70,9 @@ namespace DataModelExpansion.Mqtt {
 
             await client.StopAsync();
             await client.StartAsync(managedClientOptions);
-            await client.SubscribeAsync("#");
+            await Task.WhenAll(
+                topics.Select(topic => client.SubscribeAsync(topic))
+            );
         }
 
         /// <summary>

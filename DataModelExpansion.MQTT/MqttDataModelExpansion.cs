@@ -1,10 +1,11 @@
-using Artemis.Core;
+﻿using Artemis.Core;
 using Artemis.Core.DataModelExpansions;
 using DataModelExpansion.Mqtt.DataModels;
 using DataModelExpansion.Mqtt.DataModels.Dynamic;
 using MQTTnet;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -66,9 +67,34 @@ namespace DataModelExpansion.Mqtt {
             }
 
 
+            // Calculate which topics should be listened to by which servers
+            var serverTopicMap = new Dictionary<Guid?, HashSet<string>>();
+            var nodesToSearch = new Queue<StructureDefinitionNode>();
+            nodesToSearch.Enqueue(dynamicDataModelStructureSetting.Value);
+
+            foreach (var server in serverConnectionsSetting.Value)
+                serverTopicMap.Add(server.ServerId, new HashSet<string>());
+
+            // - Not implemented as a recursive function because it then becomes a lot of hassle to merge dictionaries.
+            while (nodesToSearch.TryDequeue(out var current)) {
+                if (current.Children == null) {
+                    if (current.Server == null) { // If null, listens to any server
+                        foreach (var server in serverConnectionsSetting.Value) {
+                            serverTopicMap[server.ServerId].Add(current.Topic);
+                        }
+                    } else {
+                        serverTopicMap[current.Server].Add(current.Topic);
+                    }
+                } else {
+                    foreach (var child in current.Children)
+                        nodesToSearch.Enqueue(child);
+                }
+            }
+
+
             // Start each connector with relevant settings
             return Task.WhenAll(
-                connectors.Select((connector, i) => connector.Start(serverConnectionsSetting.Value[i]))
+                connectors.Select((connector, i) => connector.Start(serverConnectionsSetting.Value[i], serverTopicMap[serverConnectionsSetting.Value[i].ServerId]))
             );
         }
 
