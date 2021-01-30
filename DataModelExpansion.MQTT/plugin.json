@@ -4,5 +4,5 @@
   "Icon":  "AccessPoint",
   "Description": "Provides a customisable data model based on data received by subscribing to an MQTT broker.",
   "Version": "0.0.1.0",
-  "Main": "DataModelExpansion.MQTT.dll"
+  "Main": "DataModelExpansion.Mqtt.dll"
 }
