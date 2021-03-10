@@ -3,6 +3,6 @@
   "Name": "Truck Simulator",
   "Icon": "Truck",
   "Description": "Plugin that provides data models for Euro Truck Simulator 2 and American Truck Simulator.",
-  "Version": "1.0.0.0",
+  "Version": "1.2.0.0",
   "Main": "Artemis.Plugins.Modules.TruckSimulator.dll"
 }

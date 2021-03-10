@@ -1,5 +1,4 @@
-﻿using Artemis.Core;
-using Artemis.Core.Modules;
+﻿using Artemis.Core.Modules;
 using Artemis.Plugins.Modules.EliteDangerous.DataModels;
 using Artemis.Plugins.Modules.EliteDangerous.Journal;
 using Artemis.Plugins.Modules.EliteDangerous.Status;
@@ -49,6 +48,6 @@ namespace Artemis.Plugins.Modules.EliteDangerous {
             statusParser.Deactivate();
         }
 
-        public override void Render(double deltaTime, ArtemisSurface surface, SKCanvas canvas, SKImageInfo canvasInfo) { }
+        public override void Render(double deltaTime, SKCanvas canvas, SKImageInfo canvasInfo) { }
     }
 }

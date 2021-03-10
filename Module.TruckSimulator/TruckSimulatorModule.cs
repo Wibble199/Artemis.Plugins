@@ -1,5 +1,4 @@
-﻿using Artemis.Core;
-using Artemis.Core.Modules;
+﻿using Artemis.Core.Modules;
 using SkiaSharp;
 using Artemis.Plugins.Modules.TruckSimulator.DataModels;
 using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
@@ -38,6 +37,6 @@ namespace Artemis.Plugins.Modules.TruckSimulator {
         // Unused abstract methods
         public override void ModuleActivated(bool isOverride) { }
         public override void ModuleDeactivated(bool isOverride) { }
-        public override void Render(double deltaTime, ArtemisSurface surface, SKCanvas canvas, SKImageInfo canvasInfo) { }
+        public override void Render(double deltaTime, SKCanvas canvas, SKImageInfo canvasInfo) { }
     }
 }
