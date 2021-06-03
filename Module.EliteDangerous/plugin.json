@@ -1,8 +1,10 @@
 {
   "Guid": "49dff3a6-3d2a-444a-8346-582b2d61b776",
   "Name": "Elite: Dangerous Module",
+  "Author": "Wibble (Wibble#5423)",
+  "Repository": "https://github.com/Wibble199/Artemis.Plugins",
   "Icon": "Elite-Dangerous.svg",
   "Description": "Plugin that provides a data model accessing local Elite: Dangerous journal data.",
-  "Version": "1.1.0.0",
+  "Version": "1.2.0.0",
   "Main": "Artemis.Plugins.Modules.EliteDangerous.dll"
 }
